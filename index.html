@@ -191,7 +191,11 @@ Define your world with parameters:</p>
     </span><span class="nt">"helper"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nt">"stats"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nt">"autoresize"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"shadowmap"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+
+    </span><span class="nt">"shadowmap"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="err">THREE.PCFSoftShadowMap</span><span class="w">
+    </span><span class="p">},</span><span class="w">
 
     </span><span class="nt">"gravity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
@@ -321,7 +325,7 @@ Define your world with parameters:</p>
 </tr>
 </tbody></table>
 
-<aside class="notice">
+<aside class="warning yellow">
 You must include <code>path_worker</code> and <code>path_ammo</code> parameters with pathes to Physi.js worker script and Ammo.js.
 </aside>
 
@@ -433,6 +437,17 @@ You must include <code>path_worker</code> and <code>path_ammo</code> parameters 
 </tr>
 </tbody></table>
 
+<aside class="notice">
+More information about Physijs properties you can find [here](https://github.com/chandlerprall/Physijs/wiki)
+</aside>
+
+<h2 id="enable-debugging">Enable debugging.</h2>
+
+<p>Debugging is the process of finding and resolving of defects that prevent correct operation of computer software or a system.</p>
+
+<p>For debugging simulating proccess set <code class="prettyprint">WHS.debug = true;</code> at the begining of your application.
+All proccesses, such as <em>creating, building, adding to world or removing</em> will be described in the console.</p>
+
 <h1 class="big" id="API">API</h1>
 
 <h2 id="whs-shape-super-class">WHS.Shape [Super Class]</h2>
@@ -463,15 +478,15 @@ You must include <code>path_worker</code> and <code>path_ammo</code> parameters 
 <blockquote>
 <h4>Methods:</h4>
 
-<p><strong>.build( &hellip;tags )</strong> - aplly position and rotation to mesh, writing <code class="prettyprint">build_state</code> as ready.</p>
+<p><strong>.build( &hellip;tags )</strong> - aplly position and rotation to mesh, returning <code class="prettyprint">Promise</code> when ready.</p>
 
-<p><strong>.addTo( root, &hellip;tags )</strong> - add WHS.Shape object to scene (WHS.World).</p>
+<p><strong>.addTo( root, &hellip;tags )</strong> - add WHS.Shape object to scene (WHS.World). Returns <code class="prettyprint">Promise</code> object.</p>
 
-<p><strong>.remove()</strong> - remove object from scene.</p>
+<p><strong>.remove()</strong> - remove object from scene. Returns <code class="prettyprint">WHS object</code>.</p>
 
-<p><strong>.retrieve()</strong> - add object to scene after it was removed.</p>
+<p><strong>.retrieve()</strong> - add object to scene after it was removed. Returns <code class="prettyprint">WHS object</code>.</p>
 
-<div class="tip-right"> <b>&hellip;tags</b> is a list of tags that inform core how to make changes to <code>build_state</code> and <code>_state</code>.</div>
+<div class="tip-right"> <b>&hellip;tags</b> is a list of tags that inform core how to make changes to <code>WHS objects</code>.</div>
 </blockquote>
 
 <p>WHS.Shape is a default class for all object&rsquo;s (except lights and cameras).
@@ -664,13 +679,13 @@ It consist of Three.js mesh, Physi.js mesh and whs parameters such as geometry o
 <td><strong>skyColor</strong></td>
 <td>0xffffff</td>
 <td><code class="prettyprint">Color</code></td>
-<td>TODO</td>
+<td>Sky color.</td>
 </tr>
 <tr>
 <td><strong>groundColor</strong></td>
 <td>0xffffff</td>
 <td><code class="prettyprint">Color</code></td>
-<td>TODO</td>
+<td>Ground color.</td>
 </tr>
 <tr>
 <td><strong>intensity</strong></td>
@@ -696,9 +711,9 @@ It consist of Three.js mesh, Physi.js mesh and whs parameters such as geometry o
 
 <p>TODO.</p>
 
-<h2 id="api-extend-object-extensions-api">api.extend( object, &hellip;extensions ); [API]</h2>
+<h2 id="whs-api-extend-object-extensions-api">WHS.API.extend( object, &hellip;extensions ); [API]</h2>
 
-<p><code class="prettyprint">WHS.API.extend()</code> or just <code class="prettyprint">api.extend()</code> is made to simplify defining defaults process. We use it to check object for undefined parameters and fill them with our defaults.</p>
+<p><code class="prettyprint">WHS.API.extend()</code> or just <code class="prettyprint">WHS.API.extend()</code> is made to simplify defining defaults process. We use it to check object for undefined parameters and fill them with our defaults.</p>
 
 <p>That&rsquo;s how you can use it:
 <script src="https://gist.github.com/sasha240100/cf1af9b43d06a1d2756d.js"></script></p>
@@ -709,7 +724,7 @@ It consist of Three.js mesh, Physi.js mesh and whs parameters such as geometry o
 
 <aside class="warning yellow">This function is used in WhitestormJS Core!</aside>
 
-<h2 id="api-loadmaterial-material-api">api.loadMaterial( material ); [API]</h2>
+<h2 id="whs-api-loadmaterial-material-api">WHS.API.loadMaterial( material ); [API]</h2>
 
 <p>Turns your material parameter and returns whs material object.
 This function checks for <code class="prettyprint">kind</code> property and turns it into <code class="prettyprint">THREE.Material</code> object.</p>
@@ -718,7 +733,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 <aside class="warning yellow">This function is used in WhitestormJS Core!</aside>
 
-<h2 id="api-merge-box-rabbits-api">api.merge( box, rabbits ); [API]</h2>
+<h2 id="whs-api-merge-box-rabbits-api">WHS.API.merge( box, rabbits ); [API]</h2>
 
 <p>Merge is a simple function that adds Objects to another objects(with .add() function). Use it if you need to add multiple objects to scene for example.</p>
 
@@ -726,7 +741,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 <aside class="warning">Need to be rewritten [TODO]</aside>
 
-<h2 id="api-texture-url-options-api">api.texture( url, options  ); [API]</h2>
+<h2 id="whs-api-texture-url-options-api">WHS.API.texture( url, options  ); [API]</h2>
 <pre class="highlight javascript"><code>
 <span class="kd">var</span> <span class="nx">cube</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Cube</span><span class="p">({</span>
 
@@ -753,7 +768,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 </code></pre>
 
-<p><code class="prettyprint">api.texture()</code> wraps whs texture object to Three.js texture.</p>
+<p><code class="prettyprint">WHS.API.texture()</code> wraps whs texture object to Three.js texture.</p>
 
 <h3 id="options">Options.</h3>
 
@@ -1723,7 +1738,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(morph);  morph._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat"></i>
     </div>
 </div>
 
@@ -2725,7 +2740,43 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
 
 <aside class="notice"><code>WHS.SpotLight</code> affects meshes with <code>lambert</code> and <code>phong</code> material.</aside>
 
-          <h1 id="controls">Controls.</h1>
+          <h1 id="events">Events.</h1>
+
+<p><code class="prettyprint">WHS.Shape</code> and <code class="prettyprint">WHS.Light</code> are returning <code class="prettyprint">Events</code> object extended by themselfes.
+It means that you can listen for events with <code class="prettyprint">.addEventListener()</code> method right on shape or light returned by those classes.</p>
+
+<h3 id="events-list">Events list:</h3>
+
+<table><thead>
+<tr>
+<th>Event</th>
+<th>Arguments returned</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>collide</strong></td>
+<td>[event Object]</td>
+<td>Object collide event.</td>
+</tr>
+<tr>
+<td><strong>ready</strong></td>
+<td>-</td>
+<td>Emits when object is built.</td>
+</tr>
+<tr>
+<td><strong>remove</strong></td>
+<td>-</td>
+<td>Emits when shape is removed.</td>
+</tr>
+<tr>
+<td><strong>retrieve</strong></td>
+<td>-</td>
+<td>Emits when shape is retrieved.</td>
+</tr>
+</tbody></table>
+
+<h1 id="controls">Controls.</h1>
 
 <h2 id="first-person-controls">First-person controls.</h2>
 
@@ -2788,7 +2839,128 @@ Many different genres have made use of first-person perspectives, ranging from a
 
 <p>Use <code class="prettyprint">OrbitControls</code> if you want to look for your shape from different angles.</p>
 
-          <h1 id="plugins-amp-components">Plugins &amp; Components</h1>
+          <h1 id="components">Components</h1>
+
+<h2 id="fog-class">Fog [Class]</h2>
+
+<blockquote>
+<p>Example of using fog:</p>
+</blockquote>
+<pre class="highlight javascript"><code>
+<span class="kd">var</span> <span class="nx">fog</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Fog</span><span class="p">({</span>
+    <span class="na">hex</span><span class="p">:</span> <span class="mh">0x000000</span><span class="p">,</span>
+    <span class="na">near</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">far</span><span class="p">:</span> <span class="mi">1000</span>
+<span class="p">});</span>
+
+</code></pre>
+
+<p><code class="prettyprint">WHS.Fog</code> is a component for defining linear fog, i.e., that grows linearly denser with the distance.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>hex</strong></td>
+<td>0x000000</td>
+<td><code class="prettyprint">Color</code></td>
+<td>Fog color.</td>
+</tr>
+<tr>
+<td><strong>near</strong></td>
+<td>1</td>
+<td><code class="prettyprint">Number</code></td>
+<td>The minimum distance to start fog.</td>
+</tr>
+<tr>
+<td><strong>far</strong></td>
+<td>1000</td>
+<td><code class="prettyprint">Number</code></td>
+<td>The maximum distance to start fog.</td>
+</tr>
+</tbody></table>
+
+<h2 id="fogexp2-class">FogExp2 [Class]</h2>
+
+<blockquote>
+<p>Example of using fogexp2:</p>
+</blockquote>
+<pre class="highlight javascript"><code>
+<span class="kd">var</span> <span class="nx">fog</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">FogExp2</span><span class="p">({</span>
+    <span class="na">hex</span><span class="p">:</span> <span class="mh">0x000000</span><span class="p">,</span>
+    <span class="na">density</span><span class="p">:</span> <span class="mf">0.00025</span>
+<span class="p">});</span>
+
+</code></pre>
+
+<p><code class="prettyprint">WHS.FogExp2</code> is like a <code class="prettyprint">WHS.Fog</code> class, but that define exponential fog, i.e., that grows exponentially denser with the distance.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>hex</strong></td>
+<td>0x000000</td>
+<td><code class="prettyprint">Color</code></td>
+<td>Fog color.</td>
+</tr>
+<tr>
+<td><strong>density</strong></td>
+<td>0.00025</td>
+<td><code class="prettyprint">Number</code></td>
+<td>Defines how fast the fog will grow dense.</td>
+</tr>
+</tbody></table>
+
+<h2 class="ws" id="skybox">Skybox [Class]</h2>
+
+<blockquote>
+<p>Example of using skybox:</p>
+</blockquote>
+<pre class="highlight javascript"><code>
+<span class="kd">var</span> <span class="nx">fog</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Skybox</span><span class="p">({</span>
+    <span class="na">path</span><span class="p">:</span> <span class="s2">"assets/textures/skybox/skymap"</span><span class="p">,</span>
+    <span class="na">imgSuffix</span><span class="p">:</span> <span class="s2">".png"</span><span class="p">,</span>
+    <span class="na">skyType</span><span class="p">:</span> <span class="s2">"sphere"</span><span class="p">,</span>
+    <span class="na">radius</span><span class="p">:</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">_camera</span><span class="p">.</span><span class="nx">far</span><span class="p">,</span>
+
+    <span class="na">rot</span><span class="p">:</span> <span class="p">{</span> <span class="na">y</span><span class="p">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="o">-</span> <span class="mi">90</span> <span class="p">},</span>
+    <span class="na">pos</span><span class="p">:</span> <span class="p">{</span> <span class="na">y</span><span class="p">:</span> <span class="o">-</span> <span class="mi">200</span> <span class="p">}</span>
+<span class="p">});</span>
+
+</code></pre>
+
+<p><code class="prettyprint">WHS.Skybox</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>todo</strong></td>
+<td>0x000000</td>
+<td><code class="prettyprint">Color</code></td>
+<td>TODO</td>
+</tr>
+</tbody></table>
+
+<p><img src="images/skybox.png"></p>
+
+          <h1 id="adding-plugins-amp-components">Adding Plugins &amp; Components</h1>
 
 <h2 id="making-your-own-component">Making your own component</h2>
 <pre class="highlight javascript"><code>
@@ -2842,7 +3014,7 @@ As you know, <code class="prettyprint">whitestorm.js</code> uses <code class="pr
 
 <aside class="warning yellow">It is adviced to compile them with <a href="https://babeljs.io/">Babel</a>.</aside>
 
-          <script src="jslibs/whitestorm.js"></script>
+          <script src="jslibs/whitestorm.min.js"></script>
 
 <script>
 
@@ -2864,6 +3036,8 @@ function reset_mesh( whsobject ) {
 
     whsobject.mesh.setLinearVelocity(new THREE.Vector3(0, 0, 0));
     whsobject.mesh.setAngularVelocity(new THREE.Vector3(0, 0, 0));
+
+    
 }
 
 // NOTE: Basic scene with sphere and ground.
@@ -3246,6 +3420,32 @@ Extrude_example.OrbitControls();
 
 spotlight.addTo( Extrude_example );
 
+var spotlight = new WHS.SpotLight( 
+{
+    light: {
+        color: 0xffffff, //0x00ff00,
+        intensity: 1,
+        distance: 100,
+    },
+
+    shadowmap: {
+        top: 0,
+        fov: 90
+    },
+
+    pos: {
+        x: 0,
+        y: 10,
+        z: 30
+    },
+
+    target: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
 // LATHE EXAMPLE.
 
 defaultParams.container = document.getElementById("lathe_ex");
@@ -3290,6 +3490,32 @@ Lathe_example.OrbitControls();
 
 spotlight.addTo( Lathe_example );
 
+var spotlight = new WHS.SpotLight( 
+{
+    light: {
+        color: 0xffffff, //0x00ff00,
+        intensity: 1,
+        distance: 100,
+    },
+
+    shadowmap: {
+        top: 0,
+        fov: 90
+    },
+
+    pos: {
+        x: 0,
+        y: 10,
+        z: 30
+    },
+
+    target: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
 //Lathe_example.start();
 
 // MODEL EXAMPLE.
@@ -3309,7 +3535,7 @@ var model = Model_example.Model(
     material: {
         vertexColors: THREE.VertexColors,
         shading: THREE.SmoothShading,
-        map: api.texture('assets/textures/teapot.jpg', {repeat:{x: 4, y:4}}),
+        map: WHS.API.texture('assets/textures/teapot.jpg', {repeat:{x: 4, y:4}}),
         kind: "phong",
         useCustomMaterial: true,
         rest: 0,
@@ -3334,6 +3560,32 @@ Model_example.Smooth(groundParams);
 Model_example.OrbitControls();
 
 spotlight.addTo( Model_example );
+
+var spotlight = new WHS.SpotLight( 
+{
+    light: {
+        color: 0xffffff, //0x00ff00,
+        intensity: 1,
+        distance: 100,
+    },
+
+    shadowmap: {
+        top: 0,
+        fov: 90
+    },
+
+    pos: {
+        x: 0,
+        y: 10,
+        z: 30
+    },
+
+    target: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
 
 //Model_example.start();
 
@@ -3376,6 +3628,32 @@ Morph_example.OrbitControls();
 
 spotlight.addTo( Morph_example );
 
+var spotlight = new WHS.SpotLight( 
+{
+    light: {
+        color: 0xffffff, //0x00ff00,
+        intensity: 1,
+        distance: 100,
+    },
+
+    shadowmap: {
+        top: 0,
+        fov: 90
+    },
+
+    pos: {
+        x: 0,
+        y: 10,
+        z: 30
+    },
+
+    target: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
 //Morph_example.start();
 
 // PARAMETRIC EXAMPLE.
@@ -3414,6 +3692,32 @@ Parametric_example.OrbitControls();
 Parametric_example.Smooth(groundParams);
 
 spotlight.addTo( Parametric_example );
+
+var spotlight = new WHS.SpotLight( 
+{
+    light: {
+        color: 0xffffff, //0x00ff00,
+        intensity: 1,
+        distance: 100,
+    },
+
+    shadowmap: {
+        top: 0,
+        fov: 90
+    },
+
+    pos: {
+        x: 0,
+        y: 10,
+        z: 30
+    },
+
+    target: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
 
 //Parametric_example.start();
 
@@ -3495,6 +3799,32 @@ Text_example.Smooth(groundParams);
 
 spotlight.addTo( Text_example );
 
+var spotlight = new WHS.SpotLight( 
+{
+    light: {
+        color: 0xffffff, //0x00ff00,
+        intensity: 1,
+        distance: 100,
+    },
+
+    shadowmap: {
+        top: 0,
+        fov: 90
+    },
+
+    pos: {
+        x: 0,
+        y: 10,
+        z: 30
+    },
+
+    target: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
 //Text_example.start();
 
 // TORUS EXAMPLE.
@@ -3531,6 +3861,32 @@ Torus_example.Smooth(groundParams);
 
 spotlight.addTo( Torus_example );
 
+var spotlight = new WHS.SpotLight( 
+{
+    light: {
+        color: 0xffffff, //0x00ff00,
+        intensity: 1,
+        distance: 100,
+    },
+
+    shadowmap: {
+        top: 0,
+        fov: 90
+    },
+
+    pos: {
+        x: 0,
+        y: 10,
+        z: 30
+    },
+
+    target: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
 //Torus_example.start();
 
 // TORUSKNOT EXAMPLE.
@@ -3551,7 +3907,7 @@ var torusknot = Torusknot_example.Torusknot(
     material: {
         vertexColors: THREE.VertexColors,
         shading: THREE.SmoothShading,
-        map: api.texture('assets/textures/bricks.jpg'),
+        map: WHS.API.texture('assets/textures/bricks.jpg'),
         kind: "phong"
     },
 

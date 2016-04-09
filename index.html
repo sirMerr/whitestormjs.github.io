@@ -143,9 +143,11 @@
 
 <p><strong>Whiestorm.js</strong> is a <em>framework</em> for 3D web apps built with Three.js technology.</p>
 
-<p>It implements a <em>core</em> with cmponent system and plugin support for fast development of 3D scene with physics.</p>
+<p>It implements a <em>core</em> with component system and plugin support for fast development of 3D scene with physics.</p>
 
-<p>Automizing your web app with whitestorm.js is fast and comfortable. You can use whitestorm&rsquo;s API for creating different shapes instead of writing simple functionality each time.</p>
+<p>Automizing your web app with <strong>whitestorm.js</strong> is fast and comfortable. You can use whitestorm&rsquo;s API for creating different shapes instead of writing common functions each time. This engine has physics support implemented by <a href="https://github.com/WhitestormJS/Physijs">custom Physi.js</a> library, which is much faster than others. Framework provides extended component control and high frame rate, because it uses <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers"><strong>WebWorkers</strong> technology</a> for multithreading.</p>
+
+<p><strong>Framework&rsquo;s goal is to simplify coding workflow and add plugin&rsquo;s feature to 3D part of the web.</strong></p>
 
 <h1 id="getting-started">Getting started</h1>
 
@@ -481,6 +483,8 @@ All proccesses, such as <em>creating, building, adding to world or removing</em>
 <p><strong>.build( &hellip;tags )</strong> - aplly position and rotation to mesh, returning <code class="prettyprint">Promise</code> when ready.</p>
 
 <p><strong>.addTo( root, &hellip;tags )</strong> - add WHS.Shape object to scene (WHS.World). Returns <code class="prettyprint">Promise</code> object.</p>
+
+<p><strong>.clone()</strong> - clone object and it&rsquo;s parameters including latest position/rotation. Returns new <code class="prettyprint">WHS object</code>.</p>
 
 <p><strong>.remove()</strong> - remove object from scene. Returns <code class="prettyprint">WHS object</code>.</p>
 
@@ -837,7 +841,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(cube);  cube._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(cube);  cube.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
@@ -920,7 +924,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(sphere);  sphere._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(sphere);  sphere.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
@@ -1063,11 +1067,15 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(cylinder);  cylinder._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(cylinder);  cylinder.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
 <p><code class="prettyprint">WHS.Cylinder</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>A <strong>cylinder</strong> is one of the most basic curvilinear geometric shapes, the surface <em>formed by the points at a fixed distance from a given straight line, the axis of the cylinder.</em> The solid enclosed by this surface and by two planes perpendicular to the axis is also called a cylinder. The surface area and the volume of a cylinder have been known since deep antiquity.</p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Cylinder-with-blender.png" width="250"></p>
 
 <p><code class="prettyprint">WHS.Cylinder</code> creates Cylinder object by it&rsquo;s <code class="prettyprint">radiusTop</code>, <code class="prettyprint">radiusBottom</code> and <code class="prettyprint">height</code></p>
 
@@ -1135,11 +1143,15 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(dodecahedron);  dodecahedron._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(dodecahedron);  dodecahedron.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
 <p><code class="prettyprint">WHS.Dodecahedron</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>In geometry, a <strong>dodecahedron</strong> is any <em>polyhedron with twelve flat faces</em>. The most familiar dodecahedron is the regular dodecahedron, which is a Platonic solid. There are also three regular star dodecahedra, which are constructed as stellations of the convex form. All of these have icosahedral symmetry, order 120.</p>
+
+<p><img src="http://mathworld.wolfram.com/images/eps-gif/DodecahedronAndDual_1000.gif"></p>
 
 <p><code class="prettyprint">WHS.Dodecahedron</code> creates Dodecahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1198,11 +1210,15 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(polyhedron);  polyhedron._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(polyhedron);  polyhedron.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
 <p><code class="prettyprint">WHS.Polyhedron</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>In elementary geometry, a <strong>polyhedron</strong> is <em>a solid in three dimensions with flat polygonal faces, straight edges and sharp corners or vertices</em>.</p>
+
+<p><img src="http://www.ventrella.com/SphereCA/images/dual.png"></p>
 
 <p><code class="prettyprint">WHS.Polyhedron</code> creates Polyhedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1271,11 +1287,16 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(icosahedron);  icosahedron._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(icosahedron);  icosahedron.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
 <p><code class="prettyprint">WHS.Icosahedron</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>In geometry, an <strong>icosahedron</strong> is a polyhedron with 20 faces.
+There are many kinds of icosahedra, with some being more symmetrical than others. The most well known is the Platonic, convex regular icosahedron. </p>
+
+<p><img src="http://188.226.249.247/wp-content/uploads/2012/04/icosahedron.png"></p>
 
 <p><code class="prettyprint">WHS.Icosahedron</code> creates Icosahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1334,11 +1355,15 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(octahedron);  octahedron._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(octahedron);  octahedron.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
 <p><code class="prettyprint">WHS.Octahedron</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>In geometry, an <strong>octahedron</strong> is <em>a polyhedron with eight faces</em>. A regular octahedron is a Platonic solid composed of eight equilateral triangles, four of which meet at each vertex.</p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/0/08/BlenderPlatonicSolids.png"></p>
 
 <p><code class="prettyprint">WHS.Octahedron</code> creates Octahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1397,11 +1422,15 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(tetrahedron);  tetrahedron._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(tetrahedron);  tetrahedron.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
 <p><code class="prettyprint">WHS.Tetrahedron</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>In geometry, a <strong>tetrahedron</strong> is <em>a polyhedron composed of four triangular faces, six straight edges, and four vertex corners</em>. The tetrahedron is the simplest of all the ordinary convex polyhedra and the only one that has fewer than 5 faces.</p>
+
+<p><img src="http://mathworld.wolfram.com/images/eps-gif/TetrahedronAndDual_1000.gif"></p>
 
 <p><code class="prettyprint">WHS.Tetrahedron</code> creates Tetrahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1475,7 +1504,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(extrude);  extrude._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(extrude);  extrude.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
@@ -1560,7 +1589,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(lathe);  lathe._pos.set(0, 50, 10);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(lathe);  lathe.position.set(0, 50, 10);"></i>
     </div>
 </div>
 
@@ -1621,7 +1650,8 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 <span class="kd">var</span> <span class="nx">teapot</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Model</span><span class="p">({</span>
 
     <span class="na">geometry</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">path</span><span class="p">:</span> <span class="s2">"assets/models/teapot.js"</span>
+        <span class="na">path</span><span class="p">:</span> <span class="s2">"assets/models/utah-teapot-large.json"</span><span class="p">,</span>
+        <span class="na">physics</span><span class="p">:</span> <span class="s2">"assets/models/utah-teapot-light.json"</span>
     <span class="p">},</span>
 
     <span class="na">mass</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
@@ -1629,16 +1659,9 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     <span class="na">material</span><span class="p">:</span> <span class="p">{</span>
         <span class="na">vertexColors</span><span class="p">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">VertexColors</span><span class="p">,</span>
         <span class="na">shading</span><span class="p">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">SmoothShading</span><span class="p">,</span>
-        <span class="na">map</span><span class="p">:</span> <span class="nx">api</span><span class="p">.</span><span class="nx">texture</span><span class="p">(</span>
-                <span class="s1">'assets/textures/teapot.jpg'</span><span class="p">,</span> 
-                <span class="p">{</span>
-                    <span class="na">repeat</span><span class="p">:{</span>
-                        <span class="na">x</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> 
-                        <span class="na">y</span><span class="p">:</span><span class="mi">4</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">),</span>
+        <span class="na">map</span><span class="p">:</span> <span class="nx">WHS</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">texture</span><span class="p">(</span><span class="s1">'assets/textures/teapot.jpg'</span><span class="p">,</span> <span class="p">{</span><span class="na">repeat</span><span class="p">:{</span><span class="na">x</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="na">y</span><span class="p">:</span><span class="mi">2</span><span class="p">}}),</span>
         <span class="na">kind</span><span class="p">:</span> <span class="s2">"phong"</span><span class="p">,</span>
+        <span class="na">side</span><span class="p">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">DoubleSide</span><span class="p">,</span>
         <span class="na">useCustomMaterial</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
         <span class="na">rest</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="na">fri</span><span class="p">:</span> <span class="mi">1</span>
@@ -1650,8 +1673,10 @@ This function checks for <code class="prettyprint">kind</code> property and turn
         <span class="na">z</span><span class="p">:</span> <span class="mi">0</span>
     <span class="p">},</span>
 
-    <span class="na">rot</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">z</span><span class="p">:</span> <span class="mi">30</span>
+    <span class="na">scale</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">x</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="na">y</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> 
+        <span class="na">z</span><span class="p">:</span> <span class="mi">4</span>
     <span class="p">}</span>
 
 <span class="p">});</span>
@@ -1664,7 +1689,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(model);  model._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(model);  model.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
@@ -1683,10 +1708,20 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 <tr>
 <td><strong>path</strong></td>
 <td>&ldquo;&rdquo;</td>
-<td><code class="prettyprint">String</code></td>
-<td>Url adress to JSON file.</td>
+<td><code class="prettyprint">String</code>(url)</td>
+<td>Url adress to model JSON file.</td>
+</tr>
+<tr>
+<td><strong>physics</strong></td>
+<td>&ldquo;&rdquo;</td>
+<td><code class="prettyprint">String</code>(url)</td>
+<td>Url adress to physics model JSON file.</td>
 </tr>
 </tbody></table>
+
+<p><strong>physics</strong> parameter is used for adding shape that will be calculated in Physi.js. Usually it is used to defining light variant of existing model, so physics will work faster. If you don&rsquo;t type <strong>physics</strong> parameter - it will be replaced with <strong>path</strong>.</p>
+
+<aside class="notice"><code>scale</code> parameter will be also applied to physics shape, but it can be changed only in three.js mesh.</aside>
 
 <p>Also, if model has vertex colors - you can add <code class="prettyprint">useVertexColors</code> property to material parameter object (as with <code class="prettyprint">useCustomMaterial</code>).</p>
 
@@ -1814,7 +1849,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(parametric);  parametric._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(parametric);  parametric.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
@@ -2057,7 +2092,7 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(text);  text._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(text);  text.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
@@ -2192,7 +2227,7 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(torus);  torus._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(torus);  torus.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
@@ -2282,7 +2317,7 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(torusknot);  torusknot._pos.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(torusknot);  torusknot.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
@@ -3032,12 +3067,12 @@ function reset_mesh( whsobject ) {
     whsobject.mesh.__dirtyPosition = true;
     whsobject.mesh.__dirtyRotation = true;
 
-    whsobject._rot.set(0, 0, 0);
+    whsobject.rotation.set(0, 0, 0);
 
     whsobject.mesh.setLinearVelocity(new THREE.Vector3(0, 0, 0));
     whsobject.mesh.setAngularVelocity(new THREE.Vector3(0, 0, 0));
 
-    
+
 }
 
 // NOTE: Basic scene with sphere and ground.
@@ -3527,7 +3562,8 @@ var Model_example = new WHS.World( defaultParams );
 var model = Model_example.Model(
 {
     geometry: {
-        path: "assets/models/teapot.js"
+        path: "assets/models/utah-teapot-large.json",
+        physics: "assets/models/utah-teapot-light.json"
     },
 
     mass: 10,
@@ -3535,8 +3571,9 @@ var model = Model_example.Model(
     material: {
         vertexColors: THREE.VertexColors,
         shading: THREE.SmoothShading,
-        map: WHS.API.texture('assets/textures/teapot.jpg', {repeat:{x: 4, y:4}}),
+        map: WHS.API.texture('assets/textures/teapot.jpg', {repeat:{x: 2, y:2}}),
         kind: "phong",
+        side: THREE.DoubleSide,
         useCustomMaterial: true,
         rest: 0,
         fri: 1
@@ -3549,9 +3586,9 @@ var model = Model_example.Model(
     },
 
     scale: {
-        x: 0.2,
-        y: 0.2,
-        z: 0.2
+        x: 4,
+        y: 4, 
+        z: 4
     }
 });
 

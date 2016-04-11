@@ -118,7 +118,8 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='http://threejs.org/'><b>Three.js <i>r75</i></b></a></li>
+            <li><a href='https://github.com/WhitestormJS/Physijs'>Get custom <b>Physijs</b></a></li>
             <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -440,7 +441,7 @@ You must include <code>path_worker</code> and <code>path_ammo</code> parameters 
 </tbody></table>
 
 <aside class="notice">
-More information about Physijs properties you can find [here](https://github.com/chandlerprall/Physijs/wiki)
+More information about Physijs properties you can find at <a href="https://github.com/chandlerprall/Physijs/wiki">it&rsquo;s site</a>
 </aside>
 
 <h2 id="enable-debugging">Enable debugging.</h2>
@@ -483,6 +484,14 @@ All proccesses, such as <em>creating, building, adding to world or removing</em>
 <p><strong>.build( &hellip;tags )</strong> - aplly position and rotation to mesh, returning <code class="prettyprint">Promise</code> when ready.</p>
 
 <p><strong>.addTo( root, &hellip;tags )</strong> - add WHS.Shape object to scene (WHS.World). Returns <code class="prettyprint">Promise</code> object.</p>
+
+<p><strong>.clone()</strong> - clone object and it&rsquo;s parameters including latest position/rotation. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.setPosition( x, y, z )</strong> - set object&rsquo;s position by x, y, z. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.setRotation( x, y, z )</strong> - set object&rsquo;s rotation by x, y, z. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.copy( source )</strong> - assign object to this object. Returns new <code class="prettyprint">WHS object</code>.</p>
 
 <p><strong>.clone()</strong> - clone object and it&rsquo;s parameters including latest position/rotation. Returns new <code class="prettyprint">WHS object</code>.</p>
 
@@ -608,7 +617,23 @@ It consist of Three.js mesh, Physi.js mesh and whs parameters such as geometry o
 <blockquote>
 <h4>Methods:</h4>
 
-<p><strong>All that WHS.Shape has +</strong></p>
+<p><strong>.build( &hellip;tags )</strong> - aplly position and rotation to mesh, returning <code class="prettyprint">Promise</code> when ready.</p>
+
+<p><strong>.addTo( root, &hellip;tags )</strong> - adds WHS.Light object to scene (WHS.World). Returns <code class="prettyprint">Promise</code> object.</p>
+
+<p><strong>.clone()</strong> - clone object and it&rsquo;s parameters including latest position/rotation. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.setPosition( x, y, z )</strong> - set object&rsquo;s position by x, y, z. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.setRotation( x, y, z )</strong> - set object&rsquo;s rotation by x, y, z. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.copy( source )</strong> - assign object to this object. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.clone()</strong> - clone object and it&rsquo;s parameters including latest position/rotation. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.remove()</strong> - remove object from scene. Returns <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.retrieve()</strong> - add object to scene after it was removed. Returns <code class="prettyprint">WHS object</code>.</p>
 
 <p><strong>.buildShadow()</strong> - apply shadowmap parameters to light.</p>
 </blockquote>
@@ -804,15 +829,15 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
           <h1 id="shapes">Shapes</h1>
 
-<h2 class="ws" id="cube">Cube [Class]</h2>
+<h2 class="ws" id="box">Box [Class]</h2>
 
 <blockquote>
-<p>Basic cube, created with WHS.Cube property.</p>
+<p>Basic box, created with WHS.Box property.</p>
 </blockquote>
 <pre class="highlight javascript"><code>
-<span class="kd">var</span> <span class="nx">cube</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Cube</span><span class="p">({</span>
+<span class="kd">var</span> <span class="nx">box</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Box</span><span class="p">({</span>
 
-    <span class="na">geometry</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// Fill cube geometry here.</span>
+    <span class="na">geometry</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// Fill box geometry here.</span>
         <span class="na">width</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
         <span class="na">height</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
         <span class="na">depth</span><span class="p">:</span> <span class="mi">2</span>
@@ -835,19 +860,19 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 </code></pre>
 
-<div id="cube_ex" class="example output">
-    <div class="splash" onclick="Cube_example.start()">
+<div id="box_ex" class="example output">
+    <div class="splash" onclick="Box_example.start()">
         <img src="images/play.png" width="30" height="30">
     </div>
     <div class="actions">
         <i class="fa fa-pause"></i>
-        <i class="fa fa-repeat" onclick="reset_mesh(cube);  cube.position.set(0, 100, 0);"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(box);  box.position.set(0, 100, 0);"></i>
     </div>
 </div>
 
-<p><code class="prettyprint">WHS.Cube</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+<p><code class="prettyprint">WHS.Box</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
 
-<p><code class="prettyprint">WHS.Cube</code> class is used to create box objects of different size.</p>
+<p><code class="prettyprint">WHS.Box</code> class is used to create box objects of different size.</p>
 
 <p>It is similar to <code class="prettyprint">THREE.BoxGeometry</code>, but it also contain&rsquo;s all properties, applied by <code class="prettyprint">WHS.Shape</code>, such as material, mass and vectors like position (pos) and rotation (rot).</p>
 
@@ -1151,7 +1176,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 <p>In geometry, a <strong>dodecahedron</strong> is any <em>polyhedron with twelve flat faces</em>. The most familiar dodecahedron is the regular dodecahedron, which is a Platonic solid. There are also three regular star dodecahedra, which are constructed as stellations of the convex form. All of these have icosahedral symmetry, order 120.</p>
 
-<p><img src="http://mathworld.wolfram.com/images/eps-gif/DodecahedronAndDual_1000.gif"></p>
+<p><img src="images/shapes/dodecahedron.gif"></p>
 
 <p><code class="prettyprint">WHS.Dodecahedron</code> creates Dodecahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1218,7 +1243,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 <p>In elementary geometry, a <strong>polyhedron</strong> is <em>a solid in three dimensions with flat polygonal faces, straight edges and sharp corners or vertices</em>.</p>
 
-<p><img src="http://www.ventrella.com/SphereCA/images/dual.png"></p>
+<p><img src="images/shapes/polyhedron.gif"></p>
 
 <p><code class="prettyprint">WHS.Polyhedron</code> creates Polyhedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1296,7 +1321,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 <p>In geometry, an <strong>icosahedron</strong> is a polyhedron with 20 faces.
 There are many kinds of icosahedra, with some being more symmetrical than others. The most well known is the Platonic, convex regular icosahedron. </p>
 
-<p><img src="http://188.226.249.247/wp-content/uploads/2012/04/icosahedron.png"></p>
+<p><img src="images/shapes/icosahedron.gif"></p>
 
 <p><code class="prettyprint">WHS.Icosahedron</code> creates Icosahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1363,7 +1388,7 @@ There are many kinds of icosahedra, with some being more symmetrical than others
 
 <p>In geometry, an <strong>octahedron</strong> is <em>a polyhedron with eight faces</em>. A regular octahedron is a Platonic solid composed of eight equilateral triangles, four of which meet at each vertex.</p>
 
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/0/08/BlenderPlatonicSolids.png"></p>
+<p><img src="images/shapes/octahedron.gif"></p>
 
 <p><code class="prettyprint">WHS.Octahedron</code> creates Octahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1430,7 +1455,7 @@ There are many kinds of icosahedra, with some being more symmetrical than others
 
 <p>In geometry, a <strong>tetrahedron</strong> is <em>a polyhedron composed of four triangular faces, six straight edges, and four vertex corners</em>. The tetrahedron is the simplest of all the ordinary convex polyhedra and the only one that has fewer than 5 faces.</p>
 
-<p><img src="http://mathworld.wolfram.com/images/eps-gif/TetrahedronAndDual_1000.gif"></p>
+<p><img src="images/shapes/tetrahedron.gif"></p>
 
 <p><code class="prettyprint">WHS.Tetrahedron</code> creates Tetrahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1995,61 +2020,6 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
 </tbody></table>
 
 <script src="https://gist.github.com/sasha240100/118ced78b8c3a9aeb008.js"></script>
-
-          <h2 class="ws" id="smooth">Smooth [Class]</h2>
-
-<blockquote>
-<p>WHS.Smooth example:</p>
-</blockquote>
-<pre class="highlight javascript"><code>
-<span class="nx">GAME</span><span class="p">.</span><span class="nx">ground</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Smooth</span><span class="p">({</span>
-
-    <span class="na">geometry</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">width</span><span class="p">:</span> <span class="mi">250</span><span class="p">,</span>
-        <span class="na">height</span><span class="p">:</span> <span class="mi">250</span>
-    <span class="p">},</span>
-
-    <span class="na">material</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">color</span><span class="p">:</span> <span class="mh">0xff0000</span><span class="p">,</span>
-        <span class="na">kind</span><span class="p">:</span> <span class="s2">"phong"</span>
-    <span class="p">},</span>
-
-    <span class="na">pos</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="na">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="na">z</span><span class="p">:</span> <span class="mi">0</span>
-    <span class="p">}</span>
-<span class="p">});</span>
-
-</code></pre>
-
-<p><code class="prettyprint">WHS.Smooth</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
-
-<p><code class="prettyprint">WHS.Smooth</code> is like a <code class="prettyprint">WHS.Plane</code>, but it creates infinite plane (in physics). That&rsquo;s why we call it &ldquo;Smooth plane&rdquo;.</p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>width</strong></td>
-<td>10</td>
-<td><code class="prettyprint">Number</code></td>
-<td>Width of visible plane.</td>
-</tr>
-<tr>
-<td><strong>width</strong></td>
-<td>10</td>
-<td><code class="prettyprint">Number</code></td>
-<td>Height of visible plane.</td>
-</tr>
-</tbody></table>
-
-<script src="https://gist.github.com/sasha240100/c7579930352c9943a11f.js"></script>
 
           <h2 class="ws" id="text">Text [Class]</h2>
 
@@ -2775,7 +2745,7 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
 
 <aside class="notice"><code>WHS.SpotLight</code> affects meshes with <code>lambert</code> and <code>phong</code> material.</aside>
 
-          <h1 id="events">Events.</h1>
+          <h1 id="events">Events</h1>
 
 <p><code class="prettyprint">WHS.Shape</code> and <code class="prettyprint">WHS.Light</code> are returning <code class="prettyprint">Events</code> object extended by themselfes.
 It means that you can listen for events with <code class="prettyprint">.addEventListener()</code> method right on shape or light returned by those classes.</p>
@@ -2811,7 +2781,7 @@ It means that you can listen for events with <code class="prettyprint">.addEvent
 </tr>
 </tbody></table>
 
-<h1 id="controls">Controls.</h1>
+<h1 id="controls">Controls</h1>
 
 <h2 id="first-person-controls">First-person controls.</h2>
 
@@ -3067,12 +3037,10 @@ function reset_mesh( whsobject ) {
     whsobject.mesh.__dirtyPosition = true;
     whsobject.mesh.__dirtyRotation = true;
 
-    whsobject.rotation.set(0, 0, 0);
+    whsobject.setRotation(0, 0, 0);
 
     whsobject.mesh.setLinearVelocity(new THREE.Vector3(0, 0, 0));
     whsobject.mesh.setAngularVelocity(new THREE.Vector3(0, 0, 0));
-
-
 }
 
 // NOTE: Basic scene with sphere and ground.
@@ -3088,9 +3056,10 @@ var defaultParams = {
     },
 
     camera: {
-        far: 10000,
+        far: 1000,
+        near: 10,
         y: 10,
-        z: 30
+        z: 80
     },
 
     path_worker: 'jslibs/physijs_worker.js',
@@ -3112,6 +3081,10 @@ var groundParams = {
         x: 0,
         y: 0,
         z: 0
+    },
+
+    rot: {
+        x: -Math.PI/2
     }
 };
 
@@ -3124,7 +3097,7 @@ var Sphere_example = new WHS.World( defaultParams );
 var sphere = Sphere_example.Sphere(
 {
     geometry: {
-        radius:3
+        radius:15
     },
 
     mass: 10,
@@ -3141,30 +3114,81 @@ var sphere = Sphere_example.Sphere(
     }
 });
 
-Sphere_example.Smooth(groundParams);
+var sphere2 = Sphere_example.Sphere(
+{
+    geometry: {
+        radius:15.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+(new WHS.loop(function() {
+    sphere2.position = sphere.position;
+    sphere2.rotation = sphere.rotation;
+})).start();
+
+Sphere_example.Plane(groundParams);
 
 Sphere_example.OrbitControls();
 
 //Sphere_example.start();
 
-// CUBE EXAMPLE.
+// Box EXAMPLE.
 
-defaultParams.container = document.getElementById("cube_ex");
+defaultParams.container = document.getElementById("box_ex");
 
-var Cube_example = new WHS.World( defaultParams );
+var Box_example = new WHS.World( defaultParams );
 
-var cube = Cube_example.Cube(
+var box = Box_example.Box(
 {
     geometry: {
-        width:2,
-        height:2,
-        depth:2
+        width:20,
+        height:20,
+        depth:20
     },
 
     mass: 10,
 
     material: {
         color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var box2 = Box_example.Box(
+{
+    geometry: {
+        width:20.1,
+        height:20.1,
+        depth:20.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
         kind: "basic"
     },
 
@@ -3175,11 +3199,16 @@ var cube = Cube_example.Cube(
     }
 });
 
-Cube_example.Smooth(groundParams);
+(new WHS.loop(function() {
+    box2.position = box.position;
+    box2.rotation = box.rotation;
+})).start();
 
-Cube_example.OrbitControls();
+Box_example.Plane(groundParams);
 
-//Cube_example.start();
+Box_example.OrbitControls();
+
+//Box_example.start();
 
 // CYLINDER EXAMPLE.
 
@@ -3190,15 +3219,39 @@ var Cylinder_example = new WHS.World( defaultParams );
 var cylinder = Cylinder_example.Cylinder(
 {
     geometry: {
-        radiusTop: 2,
-        radiusBottom: 4,
-        height: 5
+        radiusTop: 20,
+        radiusBottom: 40,
+        height: 50
     },
 
     mass: 10,
 
     material: {
         color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var cylinder2 = Cylinder_example.Cylinder(
+{
+    geometry: {
+        radiusTop: 20.1,
+        radiusBottom: 40.1,
+        height: 50.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
         kind: "basic"
     },
 
@@ -3209,7 +3262,12 @@ var cylinder = Cylinder_example.Cylinder(
     }
 });
 
-Cylinder_example.Smooth(groundParams);
+(new WHS.loop(function() {
+    cylinder2.position = cylinder.position;
+    cylinder2.rotation = cylinder.rotation;
+})).start();
+
+Cylinder_example.Plane(groundParams);
 
 Cylinder_example.OrbitControls();
 
@@ -3224,13 +3282,35 @@ var Dodecahedron_example = new WHS.World( defaultParams );
 var dodecahedron = Dodecahedron_example.Dodecahedron(
 {
     geometry: {
-        radius: 2
+        radius: 20
     },
 
     mass: 10,
 
     material: {
         color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var dodecahedron2 = Dodecahedron_example.Dodecahedron(
+{
+    geometry: {
+        radius: 20.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
         kind: "basic"
     },
 
@@ -3241,7 +3321,12 @@ var dodecahedron = Dodecahedron_example.Dodecahedron(
     }
 });
 
-Dodecahedron_example.Smooth(groundParams);
+(new WHS.loop(function() {
+    dodecahedron2.position = dodecahedron.position;
+    dodecahedron2.rotation = dodecahedron.rotation;
+})).start();
+
+Dodecahedron_example.Plane(groundParams);
 
 Dodecahedron_example.OrbitControls();
 
@@ -3256,13 +3341,35 @@ var Polyhedron_example = new WHS.World( defaultParams );
 var polyhedron = Polyhedron_example.Polyhedron(
 {
     geometry: {
-        radius: 2
+        radius: 20
     },
 
     mass: 10,
 
     material: {
         color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var polyhedron2 = Polyhedron_example.Polyhedron(
+{
+    geometry: {
+        radius: 20.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
         kind: "basic"
     },
 
@@ -3273,7 +3380,12 @@ var polyhedron = Polyhedron_example.Polyhedron(
     }
 });
 
-Polyhedron_example.Smooth(groundParams);
+(new WHS.loop(function() {
+    polyhedron2.position = polyhedron.position;
+    polyhedron2.rotation = polyhedron.rotation;
+})).start();
+
+Polyhedron_example.Plane(groundParams);
 
 Polyhedron_example.OrbitControls();
 
@@ -3288,13 +3400,35 @@ var Icosahedron_example = new WHS.World( defaultParams );
 var icosahedron = Icosahedron_example.Icosahedron(
 {
     geometry: {
-        radius: 2
+        radius: 20
     },
 
     mass: 10,
 
     material: {
         color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var icosahedron2 = Icosahedron_example.Icosahedron(
+{
+    geometry: {
+        radius: 20.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
         kind: "basic"
     },
 
@@ -3305,7 +3439,12 @@ var icosahedron = Icosahedron_example.Icosahedron(
     }
 });
 
-Icosahedron_example.Smooth(groundParams);
+(new WHS.loop(function() {
+    icosahedron2.position = icosahedron.position;
+    icosahedron2.rotation = icosahedron.rotation;
+})).start();
+
+Icosahedron_example.Plane(groundParams);
 
 Icosahedron_example.OrbitControls();
 
@@ -3317,16 +3456,38 @@ defaultParams.container = document.getElementById("octahedron_ex");
 
 var Octahedron_example = new WHS.World( defaultParams );
 
-var icosahedron = Octahedron_example.Octahedron(
+var octahedron = Octahedron_example.Octahedron(
 {
     geometry: {
-        radius: 2
+        radius: 20
     },
 
     mass: 10,
 
     material: {
         color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var octahedron2 = Octahedron_example.Octahedron(
+{
+    geometry: {
+        radius: 20.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
         kind: "basic"
     },
 
@@ -3337,7 +3498,12 @@ var icosahedron = Octahedron_example.Octahedron(
     }
 });
 
-Octahedron_example.Smooth(groundParams);
+(new WHS.loop(function() {
+    octahedron2.position = octahedron.position;
+    octahedron2.rotation = octahedron.rotation;
+})).start();
+
+Octahedron_example.Plane(groundParams);
 
 Octahedron_example.OrbitControls();
 
@@ -3352,13 +3518,39 @@ var Tetrahedron_example = new WHS.World( defaultParams );
 var tetrahedron = Tetrahedron_example.Tetrahedron(
 {
     geometry: {
-        radius: 2
+        radius: 20
     },
 
     mass: 10,
 
     material: {
         color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    },
+
+    rot: {
+        x: 10
+    }
+});
+
+var tetrahedron2 = Tetrahedron_example.Tetrahedron(
+{
+    geometry: {
+        radius: 20
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
         kind: "basic"
     },
 
@@ -3373,39 +3565,18 @@ var tetrahedron = Tetrahedron_example.Tetrahedron(
     }
 });
 
-Tetrahedron_example.Smooth(groundParams);
+(new WHS.loop(function() {
+    tetrahedron2.position = tetrahedron.position;
+    tetrahedron2.rotation = tetrahedron.rotation;
+})).start();
+
+Tetrahedron_example.Plane(groundParams);
 
 Tetrahedron_example.OrbitControls();
 
 //Tetrahedron_example.start();
 
 // SPOTLIGHT CONFIGURE.
-
-var spotlight = new WHS.SpotLight( 
-{
-    light: {
-        color: 0xffffff, //0x00ff00,
-        intensity: 1,
-        distance: 100,
-    },
-
-    shadowmap: {
-        top: 0,
-        fov: 90
-    },
-
-    pos: {
-        x: 0,
-        y: 10,
-        z: 30
-    },
-
-    target: {
-        x: 0,
-        y: 0,
-        z: 0
-    }
-});
 
 // EXTRUDE EXAMPLE.
 
@@ -3414,14 +3585,14 @@ defaultParams.container = document.getElementById("extrude_ex");
 var Extrude_example = new WHS.World( defaultParams );
 
 var shape = new THREE.Shape([
-    new THREE.Vector2( -4,-4 ),
-    new THREE.Vector2( -2,0  ),
-    new THREE.Vector2( -4,4  ),
-    new THREE.Vector2(  0,2  ),
-    new THREE.Vector2(  4,4  ),
-    new THREE.Vector2(  2,0  ),
-    new THREE.Vector2(  4,-4 ),
-    new THREE.Vector2(  0,-2 ),
+    new THREE.Vector2( -40,-40 ),
+    new THREE.Vector2( -20,0  ),
+    new THREE.Vector2( -40,40  ),
+    new THREE.Vector2(  0,20  ),
+    new THREE.Vector2(  40,40  ),
+    new THREE.Vector2(  20,0  ),
+    new THREE.Vector2(  40,-40 ),
+    new THREE.Vector2(  0,-20 ),
 ]);
 
 var extrude = Extrude_example.Extrude(
@@ -3431,7 +3602,7 @@ var extrude = Extrude_example.Extrude(
         options: {
             bevelEnabled: false,
             bevelSize: 0,
-            amount: 2
+            amount: 20
         } 
     },
 
@@ -3449,37 +3620,9 @@ var extrude = Extrude_example.Extrude(
     }
 });
 
-Extrude_example.Smooth(groundParams);
+Extrude_example.Plane(groundParams);
 
 Extrude_example.OrbitControls();
-
-spotlight.addTo( Extrude_example );
-
-var spotlight = new WHS.SpotLight( 
-{
-    light: {
-        color: 0xffffff, //0x00ff00,
-        intensity: 1,
-        distance: 100,
-    },
-
-    shadowmap: {
-        top: 0,
-        fov: 90
-    },
-
-    pos: {
-        x: 0,
-        y: 10,
-        z: 30
-    },
-
-    target: {
-        x: 0,
-        y: 0,
-        z: 0
-    }
-});
 
 // LATHE EXAMPLE.
 
@@ -3519,37 +3662,9 @@ var lathe = Lathe_example.Lathe(
     }
 });
 
-Lathe_example.Smooth(groundParams);
+Lathe_example.Plane(groundParams);
 
 Lathe_example.OrbitControls();
-
-spotlight.addTo( Lathe_example );
-
-var spotlight = new WHS.SpotLight( 
-{
-    light: {
-        color: 0xffffff, //0x00ff00,
-        intensity: 1,
-        distance: 100,
-    },
-
-    shadowmap: {
-        top: 0,
-        fov: 90
-    },
-
-    pos: {
-        x: 0,
-        y: 10,
-        z: 30
-    },
-
-    target: {
-        x: 0,
-        y: 0,
-        z: 0
-    }
-});
 
 //Lathe_example.start();
 
@@ -3570,8 +3685,8 @@ var model = Model_example.Model(
 
     material: {
         vertexColors: THREE.VertexColors,
-        shading: THREE.SmoothShading,
-        map: WHS.API.texture('assets/textures/teapot.jpg', {repeat:{x: 2, y:2}}),
+        shading: THREE.PlaneShading,
+        map: WHS.API.texture('assets/textures/teapot.jpg', {repeat:{x: 1, y:1}}),
         kind: "phong",
         side: THREE.DoubleSide,
         useCustomMaterial: true,
@@ -3586,43 +3701,34 @@ var model = Model_example.Model(
     },
 
     scale: {
-        x: 4,
-        y: 4, 
-        z: 4
+        x: 1.5,
+        y: 1.5, 
+        z: 1.5
     }
 });
 
-Model_example.Smooth(groundParams);
-
-Model_example.OrbitControls();
-
-spotlight.addTo( Model_example );
-
-var spotlight = new WHS.SpotLight( 
-{
-    light: {
-        color: 0xffffff, //0x00ff00,
-        intensity: 1,
-        distance: 100,
+Model_example.Box({    
+    geometry:{
+        width: 250,
+        height: 1,
+        depth: 250
     },
 
-    shadowmap: {
-        top: 0,
-        fov: 90
+    mass: 0,
+    
+    material: {
+        color: 0xff0000,
+        kind: "basic"
     },
 
     pos: {
-        x: 0,
-        y: 10,
-        z: 30
-    },
-
-    target: {
         x: 0,
         y: 0,
         z: 0
     }
 });
+
+Model_example.OrbitControls();
 
 //Model_example.start();
 
@@ -3649,12 +3755,6 @@ var morph = Morph_example.Morph(
         z: 0
     },
 
-    scale: {
-        x: 0.1,
-        y: 0.1,
-        z: 0.1
-    },
-
     morph: {
         duration: 0.5,
         speed: 250
@@ -3662,34 +3762,6 @@ var morph = Morph_example.Morph(
 });
 
 Morph_example.OrbitControls();
-
-spotlight.addTo( Morph_example );
-
-var spotlight = new WHS.SpotLight( 
-{
-    light: {
-        color: 0xffffff, //0x00ff00,
-        intensity: 1,
-        distance: 100,
-    },
-
-    shadowmap: {
-        top: 0,
-        fov: 90
-    },
-
-    pos: {
-        x: 0,
-        y: 10,
-        z: 30
-    },
-
-    target: {
-        x: 0,
-        y: 0,
-        z: 0
-    }
-});
 
 //Morph_example.start();
 
@@ -3700,7 +3772,7 @@ defaultParams.container = document.getElementById("parametric_ex");
 var Parametric_example = new WHS.World( defaultParams );
 
 function createParametric( u, v ) {
-    return new THREE.Vector3( u * 30, Math.random() * 5, v * 30);
+    return new THREE.Vector3( u * 60, Math.random() * 10, v * 60);
 }
 
 var parametric = Parametric_example.Parametric(
@@ -3726,30 +3798,21 @@ var parametric = Parametric_example.Parametric(
 
 Parametric_example.OrbitControls();
 
-Parametric_example.Smooth(groundParams);
-
-spotlight.addTo( Parametric_example );
-
-var spotlight = new WHS.SpotLight( 
-{
-    light: {
-        color: 0xffffff, //0x00ff00,
-        intensity: 1,
-        distance: 100,
+Parametric_example.Box({    
+    geometry:{
+        width: 250,
+        height: 1,
+        depth: 250
     },
 
-    shadowmap: {
-        top: 0,
-        fov: 90
+    mass: 0,
+    
+    material: {
+        color: 0xff0000,
+        kind: "basic"
     },
 
     pos: {
-        x: 0,
-        y: 10,
-        z: 30
-    },
-
-    target: {
         x: 0,
         y: 0,
         z: 0
@@ -3792,7 +3855,7 @@ var ring = Ring_example.Ring(
 
 Ring_example.OrbitControls();
 
-Ring_example.Smooth(groundParams);
+Ring_example.Plane(groundParams);
 
 spotlight.addTo( Ring_example );*/
 
@@ -3832,30 +3895,21 @@ var text = Text_example.Text(
 
 Text_example.OrbitControls();
 
-Text_example.Smooth(groundParams);
-
-spotlight.addTo( Text_example );
-
-var spotlight = new WHS.SpotLight( 
-{
-    light: {
-        color: 0xffffff, //0x00ff00,
-        intensity: 1,
-        distance: 100,
+Text_example.Box({    
+    geometry:{
+        width: 250,
+        height: 1,
+        depth: 250
     },
 
-    shadowmap: {
-        top: 0,
-        fov: 90
+    mass: 0,
+    
+    material: {
+        color: 0xff0000,
+        kind: "basic"
     },
 
     pos: {
-        x: 0,
-        y: 10,
-        z: 30
-    },
-
-    target: {
         x: 0,
         y: 0,
         z: 0
@@ -3873,8 +3927,8 @@ var Torus_example = new WHS.World( defaultParams );
 var torus = Torus_example.Torus(
 {
     geometry: {
-        radius: 5,
-        tube: 2
+        radius: 20,
+        tube: 8
     },
 
     mass: 10,
@@ -3887,37 +3941,32 @@ var torus = Torus_example.Torus(
 
     pos: {
         x: 0,
-        y: 35,
+        y: 100,
         z: 0
+    },
+
+    rot: {
+        x: Math.PI/4
     }
 });
 
 Torus_example.OrbitControls();
 
-Torus_example.Smooth(groundParams);
-
-spotlight.addTo( Torus_example );
-
-var spotlight = new WHS.SpotLight( 
-{
-    light: {
-        color: 0xffffff, //0x00ff00,
-        intensity: 1,
-        distance: 100,
+Torus_example.Box({    
+    geometry:{
+        width: 250,
+        height: 1,
+        depth: 250
     },
 
-    shadowmap: {
-        top: 0,
-        fov: 90
+    mass: 0,
+    
+    material: {
+        color: 0xff0000,
+        kind: "basic"
     },
 
     pos: {
-        x: 0,
-        y: 10,
-        z: 30
-    },
-
-    target: {
         x: 0,
         y: 0,
         z: 0
@@ -3935,15 +3984,15 @@ var Torusknot_example = new WHS.World( defaultParams );
 var torusknot = Torusknot_example.Torusknot(
 {
     geometry: {
-        radius:5,
-        tube: 2
+        radius:20,
+        tube: 8
     },
 
     mass: 10,
 
     material: {
         vertexColors: THREE.VertexColors,
-        shading: THREE.SmoothShading,
+        shading: THREE.PlaneShading,
         map: WHS.API.texture('assets/textures/bricks.jpg'),
         kind: "phong"
     },
@@ -3957,12 +4006,70 @@ var torusknot = Torusknot_example.Torusknot(
 
 Torusknot_example.OrbitControls();
 
-Torusknot_example.Smooth(groundParams);
+Torusknot_example.Box({    
+    geometry:{
+        width: 250,
+        height: 1,
+        depth: 250
+    },
 
-spotlight.addTo( Torusknot_example );
+    mass: 0,
+    
+    material: {
+        color: 0xff0000,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
 
 //Torusknot_example.start();
 
+var spotlight = new WHS.SpotLight( 
+{
+    light: {
+        color: 0xffffff, //0x00ff00,
+        intensity: 2,
+        distance: 1000,
+    },
+
+    shadowmap: {
+        top: 0,
+        fov: 90
+    },
+
+    pos: {
+        x: 0,
+        y: 200,
+        z: 300
+    },
+
+    target: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
+spotlight.addTo( Extrude_example );
+
+spotlight.clone().addTo( Lathe_example );
+
+spotlight.clone().addTo( Model_example );
+
+spotlight.clone().addTo( Morph_example );
+
+spotlight.clone().addTo( Parametric_example );
+
+spotlight.clone().addTo( Text_example );
+
+spotlight.clone().addTo( Torus_example );
+
+spotlight.clone().addTo( Torusknot_example );
 </script>
 
       </div>

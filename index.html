@@ -89,9 +89,15 @@
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
       <script src="javascripts/all.js"></script>
+    
+    <script src="jslibs/three.js"></script>
+    <script src="jslibs/physi.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+
   </head>
 
-  <body class="index" data-languages="[&quot;javascript&quot;,&quot;html&quot;]">
+  <body class="index" data-languages="[&quot;javascript&quot;,&quot;html&quot;,&quot;output&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -103,6 +109,7 @@
         <div class="lang-selector">
               <a href="#" data-language-name="javascript">javascript</a>
               <a href="#" data-language-name="html">html</a>
+              <a href="#" data-language-name="output">output</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -111,7 +118,8 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
+            <li><a href='http://threejs.org/'><b>Three.js <i>r75</i></b></a></li>
+            <li><a href='https://github.com/WhitestormJS/Physijs'>Get custom <b>Physijs</b></a></li>
             <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -136,9 +144,11 @@
 
 <p><strong>Whiestorm.js</strong> is a <em>framework</em> for 3D web apps built with Three.js technology.</p>
 
-<p>It implements a <em>core</em> with cmponent system and plugin support for fast development of 3D scene with physics.</p>
+<p>It implements a <em>core</em> with component system and plugin support for fast development of 3D scene with physics.</p>
 
-<p>Automizing your web app with whitestorm.js is fast and comfortable. You can use whitestorm&rsquo;s API for creating different shapes instead of writing simple functionality each time.</p>
+<p>Automizing your web app with <strong>whitestorm.js</strong> is fast and comfortable. You can use whitestorm&rsquo;s API for creating different shapes instead of writing common functions each time. This engine has physics support implemented by <a href="https://github.com/WhitestormJS/Physijs">custom Physi.js</a> library, which is much faster than others. Framework provides extended component control and high frame rate, because it uses <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers"><strong>WebWorkers</strong> technology</a> for multithreading.</p>
+
+<p><strong>Framework&rsquo;s goal is to simplify coding workflow and add plugin&rsquo;s feature to 3D part of the web.</strong></p>
 
 <h1 id="getting-started">Getting started</h1>
 
@@ -164,7 +174,7 @@ Define your world with parameters:</p>
 </code></pre>
 
 <p>Whitestorm.js uses Three.js for rendering your scene and objects and Physi.js for simulating physics. Both those libraries must work properly. 
-<code class="prettyprint">WHS.Init</code> initializes 3D world with parameters.</p>
+<code class="prettyprint">WHS.World</code> initializes 3D world with parameters.</p>
 
 <aside class="notice">It is advised to download your own copies of the following libraries, as large changes can break backwards compatibility.</aside>
 
@@ -174,17 +184,21 @@ Define your world with parameters:</p>
 
 <h1 id="core">Core</h1>
 
-<h2 id="whs-init-super-class">WHS.init [Super Class]</h2>
+<h2 id="whs-world-super-class">WHS.World [Super Class]</h2>
 
 <blockquote>
-<p>Defaults for <code class="prettyprint">WHS.init</code> Class:</p>
+<p>Defaults for <code class="prettyprint">WHS.World</code> Class:</p>
 </blockquote>
 <pre class="highlight json"><code><span class="p">{</span><span class="w">
     </span><span class="nt">"anaglyph"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nt">"helper"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nt">"stats"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nt">"autoresize"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"shadowmap"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+
+    </span><span class="nt">"shadowmap"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="err">THREE.PCFSoftShadowMap</span><span class="w">
+    </span><span class="p">},</span><span class="w">
 
     </span><span class="nt">"gravity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
         </span><span class="nt">"x"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
@@ -314,7 +328,7 @@ Define your world with parameters:</p>
 </tr>
 </tbody></table>
 
-<aside class="notice">
+<aside class="warning yellow">
 You must include <code>path_worker</code> and <code>path_ammo</code> parameters with pathes to Physi.js worker script and Ammo.js.
 </aside>
 
@@ -426,6 +440,17 @@ You must include <code>path_worker</code> and <code>path_ammo</code> parameters 
 </tr>
 </tbody></table>
 
+<aside class="notice">
+More information about Physijs properties you can find at <a href="https://github.com/chandlerprall/Physijs/wiki">it&rsquo;s site</a>
+</aside>
+
+<h2 id="enable-debugging">Enable debugging.</h2>
+
+<p>Debugging is the process of finding and resolving of defects that prevent correct operation of computer software or a system.</p>
+
+<p>For debugging simulating proccess set <code class="prettyprint">WHS.debug = true;</code> at the begining of your application.
+All proccesses, such as <em>creating, building, adding to world or removing</em> will be described in the console.</p>
+
 <h1 class="big" id="API">API</h1>
 
 <h2 id="whs-shape-super-class">WHS.Shape [Super Class]</h2>
@@ -456,15 +481,25 @@ You must include <code>path_worker</code> and <code>path_ammo</code> parameters 
 <blockquote>
 <h4>Methods:</h4>
 
-<p><strong>.build( &hellip;tags )</strong> - aplly position and rotation to mesh, writing <code class="prettyprint">build_state</code> as ready.</p>
+<p><strong>.build( &hellip;tags )</strong> - aplly position and rotation to mesh, returning <code class="prettyprint">Promise</code> when ready.</p>
 
-<p><strong>.addTo( root, &hellip;tags )</strong> - add WHS.Shape object to scene (WHS.init).</p>
+<p><strong>.addTo( root, &hellip;tags )</strong> - add WHS.Shape object to scene (WHS.World). Returns <code class="prettyprint">Promise</code> object.</p>
 
-<p><strong>.remove()</strong> - remove object from scene.</p>
+<p><strong>.clone()</strong> - clone object and it&rsquo;s parameters including latest position/rotation. Returns new <code class="prettyprint">WHS object</code>.</p>
 
-<p><strong>.retrieve()</strong> - add object to scene after it was removed.</p>
+<p><strong>.setPosition( x, y, z )</strong> - set object&rsquo;s position by x, y, z. Returns new <code class="prettyprint">WHS object</code>.</p>
 
-<div class="tip-right"> <b>&hellip;tags</b> is a list of tags that inform core how to make changes to <code>build_state</code> and <code>_state</code>.</div>
+<p><strong>.setRotation( x, y, z )</strong> - set object&rsquo;s rotation by x, y, z. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.copy( source )</strong> - assign object to this object. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.clone()</strong> - clone object and it&rsquo;s parameters including latest position/rotation. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.remove()</strong> - remove object from scene. Returns <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.retrieve()</strong> - add object to scene after it was removed. Returns <code class="prettyprint">WHS object</code>.</p>
+
+<div class="tip-right"> <b>&hellip;tags</b> is a list of tags that inform core how to make changes to <code>WHS objects</code>.</div>
 </blockquote>
 
 <p>WHS.Shape is a default class for all object&rsquo;s (except lights and cameras).
@@ -582,7 +617,23 @@ It consist of Three.js mesh, Physi.js mesh and whs parameters such as geometry o
 <blockquote>
 <h4>Methods:</h4>
 
-<p><strong>All that WHS.Shape has +</strong></p>
+<p><strong>.build( &hellip;tags )</strong> - aplly position and rotation to mesh, returning <code class="prettyprint">Promise</code> when ready.</p>
+
+<p><strong>.addTo( root, &hellip;tags )</strong> - adds WHS.Light object to scene (WHS.World). Returns <code class="prettyprint">Promise</code> object.</p>
+
+<p><strong>.clone()</strong> - clone object and it&rsquo;s parameters including latest position/rotation. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.setPosition( x, y, z )</strong> - set object&rsquo;s position by x, y, z. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.setRotation( x, y, z )</strong> - set object&rsquo;s rotation by x, y, z. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.copy( source )</strong> - assign object to this object. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.clone()</strong> - clone object and it&rsquo;s parameters including latest position/rotation. Returns new <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.remove()</strong> - remove object from scene. Returns <code class="prettyprint">WHS object</code>.</p>
+
+<p><strong>.retrieve()</strong> - add object to scene after it was removed. Returns <code class="prettyprint">WHS object</code>.</p>
 
 <p><strong>.buildShadow()</strong> - apply shadowmap parameters to light.</p>
 </blockquote>
@@ -657,13 +708,13 @@ It consist of Three.js mesh, Physi.js mesh and whs parameters such as geometry o
 <td><strong>skyColor</strong></td>
 <td>0xffffff</td>
 <td><code class="prettyprint">Color</code></td>
-<td>TODO</td>
+<td>Sky color.</td>
 </tr>
 <tr>
 <td><strong>groundColor</strong></td>
 <td>0xffffff</td>
 <td><code class="prettyprint">Color</code></td>
-<td>TODO</td>
+<td>Ground color.</td>
 </tr>
 <tr>
 <td><strong>intensity</strong></td>
@@ -689,9 +740,9 @@ It consist of Three.js mesh, Physi.js mesh and whs parameters such as geometry o
 
 <p>TODO.</p>
 
-<h2 id="api-extend-object-extensions-api">api.extend( object, &hellip;extensions ); [API]</h2>
+<h2 id="whs-api-extend-object-extensions-api">WHS.API.extend( object, &hellip;extensions ); [API]</h2>
 
-<p><code class="prettyprint">WHS.API.extend()</code> or just <code class="prettyprint">api.extend()</code> is made to simplify defining defaults process. We use it to check object for undefined parameters and fill them with our defaults.</p>
+<p><code class="prettyprint">WHS.API.extend()</code> or just <code class="prettyprint">WHS.API.extend()</code> is made to simplify defining defaults process. We use it to check object for undefined parameters and fill them with our defaults.</p>
 
 <p>That&rsquo;s how you can use it:
 <script src="https://gist.github.com/sasha240100/cf1af9b43d06a1d2756d.js"></script></p>
@@ -702,7 +753,7 @@ It consist of Three.js mesh, Physi.js mesh and whs parameters such as geometry o
 
 <aside class="warning yellow">This function is used in WhitestormJS Core!</aside>
 
-<h2 id="api-loadmaterial-material-api">api.loadMaterial( material ); [API]</h2>
+<h2 id="whs-api-loadmaterial-material-api">WHS.API.loadMaterial( material ); [API]</h2>
 
 <p>Turns your material parameter and returns whs material object.
 This function checks for <code class="prettyprint">kind</code> property and turns it into <code class="prettyprint">THREE.Material</code> object.</p>
@@ -711,7 +762,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 <aside class="warning yellow">This function is used in WhitestormJS Core!</aside>
 
-<h2 id="api-merge-box-rabbits-api">api.merge( box, rabbits ); [API]</h2>
+<h2 id="whs-api-merge-box-rabbits-api">WHS.API.merge( box, rabbits ); [API]</h2>
 
 <p>Merge is a simple function that adds Objects to another objects(with .add() function). Use it if you need to add multiple objects to scene for example.</p>
 
@@ -719,7 +770,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 <aside class="warning">Need to be rewritten [TODO]</aside>
 
-<h2 id="api-texture-url-options-api">api.texture( url, options  ); [API]</h2>
+<h2 id="whs-api-texture-url-options-api">WHS.API.texture( url, options  ); [API]</h2>
 <pre class="highlight javascript"><code>
 <span class="kd">var</span> <span class="nx">cube</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Cube</span><span class="p">({</span>
 
@@ -746,7 +797,7 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 </code></pre>
 
-<p><code class="prettyprint">api.texture()</code> wraps whs texture object to Three.js texture.</p>
+<p><code class="prettyprint">WHS.API.texture()</code> wraps whs texture object to Three.js texture.</p>
 
 <h3 id="options">Options.</h3>
 
@@ -778,15 +829,15 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
           <h1 id="shapes">Shapes</h1>
 
-<h2 class="ws" id="cube">Cube [Class]</h2>
+<h2 class="ws" id="box">Box [Class]</h2>
 
 <blockquote>
-<p>Basic cube, created with WHS.Cube property.</p>
+<p>Basic box, created with WHS.Box property.</p>
 </blockquote>
 <pre class="highlight javascript"><code>
-<span class="kd">var</span> <span class="nx">cube</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Cube</span><span class="p">({</span>
+<span class="kd">var</span> <span class="nx">box</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Box</span><span class="p">({</span>
 
-    <span class="na">geometry</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// Fill cube geometry here.</span>
+    <span class="na">geometry</span><span class="p">:</span> <span class="p">{</span> <span class="c1">// Fill box geometry here.</span>
         <span class="na">width</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
         <span class="na">height</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
         <span class="na">depth</span><span class="p">:</span> <span class="mi">2</span>
@@ -809,9 +860,19 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 </code></pre>
 
-<p><code class="prettyprint">WHS.Cube</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+<div id="box_ex" class="example output">
+    <div class="splash" onclick="Box_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(box);  box.position.set(0, 100, 0);"></i>
+    </div>
+</div>
 
-<p><code class="prettyprint">WHS.Cube</code> class is used to create box objects of different size.</p>
+<p><code class="prettyprint">WHS.Box</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p><code class="prettyprint">WHS.Box</code> class is used to create box objects of different size.</p>
 
 <p>It is similar to <code class="prettyprint">THREE.BoxGeometry</code>, but it also contain&rsquo;s all properties, applied by <code class="prettyprint">WHS.Shape</code>, such as material, mass and vectors like position (pos) and rotation (rot).</p>
 
@@ -881,6 +942,16 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 <span class="p">}</span> <span class="p">);</span>
 
 </code></pre>
+
+<div id="sphere_ex" class="example output">
+    <div class="splash" onclick="Sphere_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(sphere);  sphere.position.set(0, 100, 0);"></i>
+    </div>
+</div>
 
 <p><code class="prettyprint">WHS.Sphere</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
 
@@ -1015,7 +1086,21 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 </code></pre>
 
+<div id="cylinder_ex" class="example output">
+    <div class="splash" onclick="Cylinder_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(cylinder);  cylinder.position.set(0, 100, 0);"></i>
+    </div>
+</div>
+
 <p><code class="prettyprint">WHS.Cylinder</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>A <strong>cylinder</strong> is one of the most basic curvilinear geometric shapes, the surface <em>formed by the points at a fixed distance from a given straight line, the axis of the cylinder.</em> The solid enclosed by this surface and by two planes perpendicular to the axis is also called a cylinder. The surface area and the volume of a cylinder have been known since deep antiquity.</p>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Cylinder-with-blender.png" width="250"></p>
 
 <p><code class="prettyprint">WHS.Cylinder</code> creates Cylinder object by it&rsquo;s <code class="prettyprint">radiusTop</code>, <code class="prettyprint">radiusBottom</code> and <code class="prettyprint">height</code></p>
 
@@ -1077,7 +1162,21 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 </code></pre>
 
+<div id="dodecahedron_ex" class="example output">
+    <div class="splash" onclick="Dodecahedron_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(dodecahedron);  dodecahedron.position.set(0, 100, 0);"></i>
+    </div>
+</div>
+
 <p><code class="prettyprint">WHS.Dodecahedron</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>In geometry, a <strong>dodecahedron</strong> is any <em>polyhedron with twelve flat faces</em>. The most familiar dodecahedron is the regular dodecahedron, which is a Platonic solid. There are also three regular star dodecahedra, which are constructed as stellations of the convex form. All of these have icosahedral symmetry, order 120.</p>
+
+<p><img src="images/shapes/dodecahedron.gif"></p>
 
 <p><code class="prettyprint">WHS.Dodecahedron</code> creates Dodecahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1130,7 +1229,21 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 </code></pre>
 
+<div id="polyhedron_ex" class="example output">
+    <div class="splash" onclick="Polyhedron_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(polyhedron);  polyhedron.position.set(0, 100, 0);"></i>
+    </div>
+</div>
+
 <p><code class="prettyprint">WHS.Polyhedron</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>In elementary geometry, a <strong>polyhedron</strong> is <em>a solid in three dimensions with flat polygonal faces, straight edges and sharp corners or vertices</em>.</p>
+
+<p><img src="images/shapes/polyhedron.gif"></p>
 
 <p><code class="prettyprint">WHS.Polyhedron</code> creates Polyhedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1193,7 +1306,22 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 </code></pre>
 
+<div id="icosahedron_ex" class="example output">
+    <div class="splash" onclick="Icosahedron_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(icosahedron);  icosahedron.position.set(0, 100, 0);"></i>
+    </div>
+</div>
+
 <p><code class="prettyprint">WHS.Icosahedron</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>In geometry, an <strong>icosahedron</strong> is a polyhedron with 20 faces.
+There are many kinds of icosahedra, with some being more symmetrical than others. The most well known is the Platonic, convex regular icosahedron. </p>
+
+<p><img src="images/shapes/icosahedron.gif"></p>
 
 <p><code class="prettyprint">WHS.Icosahedron</code> creates Icosahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1246,7 +1374,21 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 </code></pre>
 
+<div id="octahedron_ex" class="example output">
+    <div class="splash" onclick="Octahedron_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(octahedron);  octahedron.position.set(0, 100, 0);"></i>
+    </div>
+</div>
+
 <p><code class="prettyprint">WHS.Octahedron</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>In geometry, an <strong>octahedron</strong> is <em>a polyhedron with eight faces</em>. A regular octahedron is a Platonic solid composed of eight equilateral triangles, four of which meet at each vertex.</p>
+
+<p><img src="images/shapes/octahedron.gif"></p>
 
 <p><code class="prettyprint">WHS.Octahedron</code> creates Octahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1299,7 +1441,21 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
 </code></pre>
 
+<div id="tetrahedron_ex" class="example output">
+    <div class="splash" onclick="Tetrahedron_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(tetrahedron);  tetrahedron.position.set(0, 100, 0);"></i>
+    </div>
+</div>
+
 <p><code class="prettyprint">WHS.Tetrahedron</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p>In geometry, a <strong>tetrahedron</strong> is <em>a polyhedron composed of four triangular faces, six straight edges, and four vertex corners</em>. The tetrahedron is the simplest of all the ordinary convex polyhedra and the only one that has fewer than 5 faces.</p>
+
+<p><img src="images/shapes/tetrahedron.gif"></p>
 
 <p><code class="prettyprint">WHS.Tetrahedron</code> creates Tetrahedron object by it&rsquo;s <code class="prettyprint">radius</code> and <code class="prettyprint">detail</code>.</p>
 
@@ -1366,6 +1522,16 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 <span class="p">});</span>
 
 </code></pre>
+
+<div id="extrude_ex" class="example output">
+    <div class="splash" onclick="Extrude_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(extrude);  extrude.position.set(0, 100, 0);"></i>
+    </div>
+</div>
 
 <p><code class="prettyprint">WHS.Extrude</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
 
@@ -1435,12 +1601,22 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 
     <span class="na">pos</span><span class="p">:</span> <span class="p">{</span>
         <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="na">y</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="na">y</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
         <span class="na">z</span><span class="p">:</span> <span class="mi">10</span>
     <span class="p">}</span>
 <span class="p">});</span>
 
 </code></pre>
+
+<div id="lathe_ex" class="example output">
+    <div class="splash" onclick="Lathe_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(lathe);  lathe.position.set(0, 50, 10);"></i>
+    </div>
+</div>
 
 <p><code class="prettyprint">WHS.Lathe</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
 
@@ -1499,7 +1675,8 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 <span class="kd">var</span> <span class="nx">teapot</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Model</span><span class="p">({</span>
 
     <span class="na">geometry</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">path</span><span class="p">:</span> <span class="s2">"assets/models/teapot.js"</span>
+        <span class="na">path</span><span class="p">:</span> <span class="s2">"assets/models/utah-teapot-large.json"</span><span class="p">,</span>
+        <span class="na">physics</span><span class="p">:</span> <span class="s2">"assets/models/utah-teapot-light.json"</span>
     <span class="p">},</span>
 
     <span class="na">mass</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
@@ -1507,16 +1684,9 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     <span class="na">material</span><span class="p">:</span> <span class="p">{</span>
         <span class="na">vertexColors</span><span class="p">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">VertexColors</span><span class="p">,</span>
         <span class="na">shading</span><span class="p">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">SmoothShading</span><span class="p">,</span>
-        <span class="na">map</span><span class="p">:</span> <span class="nx">api</span><span class="p">.</span><span class="nx">texture</span><span class="p">(</span>
-                <span class="s1">'assets/textures/teapot.jpg'</span><span class="p">,</span> 
-                <span class="p">{</span>
-                    <span class="na">repeat</span><span class="p">:{</span>
-                        <span class="na">x</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> 
-                        <span class="na">y</span><span class="p">:</span><span class="mi">4</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">),</span>
+        <span class="na">map</span><span class="p">:</span> <span class="nx">WHS</span><span class="p">.</span><span class="nx">API</span><span class="p">.</span><span class="nx">texture</span><span class="p">(</span><span class="s1">'assets/textures/teapot.jpg'</span><span class="p">,</span> <span class="p">{</span><span class="na">repeat</span><span class="p">:{</span><span class="na">x</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="na">y</span><span class="p">:</span><span class="mi">2</span><span class="p">}}),</span>
         <span class="na">kind</span><span class="p">:</span> <span class="s2">"phong"</span><span class="p">,</span>
+        <span class="na">side</span><span class="p">:</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">DoubleSide</span><span class="p">,</span>
         <span class="na">useCustomMaterial</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
         <span class="na">rest</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="na">fri</span><span class="p">:</span> <span class="mi">1</span>
@@ -1528,13 +1698,25 @@ This function checks for <code class="prettyprint">kind</code> property and turn
         <span class="na">z</span><span class="p">:</span> <span class="mi">0</span>
     <span class="p">},</span>
 
-    <span class="na">rot</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">z</span><span class="p">:</span> <span class="mi">30</span>
+    <span class="na">scale</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">x</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="na">y</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> 
+        <span class="na">z</span><span class="p">:</span> <span class="mi">4</span>
     <span class="p">}</span>
 
 <span class="p">});</span>
 
 </code></pre>
+
+<div id="model_ex" class="example output">
+    <div class="splash" onclick="Model_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(model);  model.position.set(0, 100, 0);"></i>
+    </div>
+</div>
 
 <p><code class="prettyprint">WHS.Model</code> class loader for loading objects in JSON format.</p>
 
@@ -1551,10 +1733,20 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 <tr>
 <td><strong>path</strong></td>
 <td>&ldquo;&rdquo;</td>
-<td><code class="prettyprint">String</code></td>
-<td>Url adress to JSON file.</td>
+<td><code class="prettyprint">String</code>(url)</td>
+<td>Url adress to model JSON file.</td>
+</tr>
+<tr>
+<td><strong>physics</strong></td>
+<td>&ldquo;&rdquo;</td>
+<td><code class="prettyprint">String</code>(url)</td>
+<td>Url adress to physics model JSON file.</td>
 </tr>
 </tbody></table>
+
+<p><strong>physics</strong> parameter is used for adding shape that will be calculated in Physi.js. Usually it is used to defining light variant of existing model, so physics will work faster. If you don&rsquo;t type <strong>physics</strong> parameter - it will be replaced with <strong>path</strong>.</p>
+
+<aside class="notice"><code>scale</code> parameter will be also applied to physics shape, but it can be changed only in three.js mesh.</aside>
 
 <p>Also, if model has vertex colors - you can add <code class="prettyprint">useVertexColors</code> property to material parameter object (as with <code class="prettyprint">useCustomMaterial</code>).</p>
 
@@ -1580,9 +1772,9 @@ This function checks for <code class="prettyprint">kind</code> property and turn
     <span class="p">},</span>
 
     <span class="na">pos</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">x</span><span class="p">:</span> <span class="mi">70</span><span class="p">,</span>
-        <span class="na">y</span><span class="p">:</span> <span class="mi">72</span><span class="p">,</span>
-        <span class="na">z</span><span class="p">:</span> <span class="mi">70</span>
+        <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">z</span><span class="p">:</span> <span class="mi">0</span>
     <span class="p">},</span>
 
     <span class="na">scale</span><span class="p">:</span> <span class="p">{</span>
@@ -1599,6 +1791,16 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 <span class="p">}</span> <span class="p">);</span>
 
 </code></pre>
+
+<div id="morph_ex" class="example output">
+    <div class="splash" onclick="Morph_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat"></i>
+    </div>
+</div>
 
 <p><code class="prettyprint">WHS.Model</code> is a class for loading animated models or meshes.</p>
 
@@ -1665,6 +1867,16 @@ This function checks for <code class="prettyprint">kind</code> property and turn
 <span class="p">});</span>
 
 </code></pre>
+
+<div id="parametric_ex" class="example output">
+    <div class="splash" onclick="Parametric_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(parametric);  parametric.position.set(0, 100, 0);"></i>
+    </div>
+</div>
 
 <p><code class="prettyprint">WHS.Parametric</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
 
@@ -1809,62 +2021,50 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
 
 <script src="https://gist.github.com/sasha240100/118ced78b8c3a9aeb008.js"></script>
 
-          <h2 class="ws" id="smooth">Smooth [Class]</h2>
+          <h2 class="ws" id="text">Text [Class]</h2>
 
 <blockquote>
-<p>WHS.Smooth example:</p>
+<p>WHS.Text example:</p>
 </blockquote>
 <pre class="highlight javascript"><code>
-<span class="nx">GAME</span><span class="p">.</span><span class="nx">ground</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Smooth</span><span class="p">({</span>
+<span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Text</span><span class="p">({</span>
 
     <span class="na">geometry</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">width</span><span class="p">:</span> <span class="mi">250</span><span class="p">,</span>
-        <span class="na">height</span><span class="p">:</span> <span class="mi">250</span>
+        <span class="na">text</span><span class="p">:</span> <span class="s2">"hello world"</span><span class="p">,</span>
+        <span class="na">parameters</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">font</span><span class="p">:</span> <span class="s2">"assets/fonts/gentilis_bold.typeface.js"</span><span class="p">,</span>
+            <span class="na">size</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="na">height</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="na">curveSegments</span><span class="p">:</span> <span class="mi">6</span>
+        <span class="p">}</span>
     <span class="p">},</span>
 
+    <span class="na">mass</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+
     <span class="na">material</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">color</span><span class="p">:</span> <span class="mh">0xff0000</span><span class="p">,</span>
-        <span class="na">kind</span><span class="p">:</span> <span class="s2">"phong"</span>
+        <span class="na">color</span><span class="p">:</span> <span class="mh">0x00ff00</span><span class="p">,</span>
+        <span class="na">kind</span><span class="p">:</span> <span class="s2">"lambert"</span>
     <span class="p">},</span>
 
     <span class="na">pos</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="na">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">x</span><span class="p">:</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span>
+        <span class="na">y</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
         <span class="na">z</span><span class="p">:</span> <span class="mi">0</span>
     <span class="p">}</span>
+
 <span class="p">});</span>
 
 </code></pre>
 
-<p><code class="prettyprint">WHS.Smooth</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
-
-<p><code class="prettyprint">WHS.Smooth</code> is like a <code class="prettyprint">WHS.Plane</code>, but it creates infinite plane (in physics). That&rsquo;s why we call it &ldquo;Smooth plane&rdquo;.</p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>width</strong></td>
-<td>10</td>
-<td><code class="prettyprint">Number</code></td>
-<td>Width of visible plane.</td>
-</tr>
-<tr>
-<td><strong>width</strong></td>
-<td>10</td>
-<td><code class="prettyprint">Number</code></td>
-<td>Height of visible plane.</td>
-</tr>
-</tbody></table>
-
-<script src="https://gist.github.com/sasha240100/c7579930352c9943a11f.js"></script>
-
-          <h2 class="ws" id="text">[TODO] Text [Class]</h2>
+<div id="text_ex" class="example output">
+    <div class="splash" onclick="Text_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(text);  text.position.set(0, 100, 0);"></i>
+    </div>
+</div>
 
 <p><code class="prettyprint">WHS.Text</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
 
@@ -1960,6 +2160,8 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
 
 <script src="https://gist.github.com/sasha240100/158b43f76862cf606c06.js"></script>
 
+<p><img src="images/shapes/text.png"></p>
+
           <h2 class="ws" id="torus">Torus [Class]</h2>
 
 <blockquote>
@@ -1988,6 +2190,16 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
     <span class="p">}</span>
 
 </code></pre>
+
+<div id="torus_ex" class="example output">
+    <div class="splash" onclick="Torus_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(torus);  torus.position.set(0, 100, 0);"></i>
+    </div>
+</div>
 
 <p><code class="prettyprint">WHS.Torus</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
 
@@ -2069,6 +2281,16 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
 
 </code></pre>
 
+<div id="torusknot_ex" class="example output">
+    <div class="splash" onclick="Torusknot_example.start()">
+        <img src="images/play.png" width="30" height="30">
+    </div>
+    <div class="actions">
+        <i class="fa fa-pause"></i>
+        <i class="fa fa-repeat" onclick="reset_mesh(torusknot);  torusknot.position.set(0, 100, 0);"></i>
+    </div>
+</div>
+
 <p><code class="prettyprint">WHS.Torusknot</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
 
 <p><code class="prettyprint">WHS.Torusknot</code> class makes a torusknot figure. It&rsquo;s like crooked donut, very crooked.</p>
@@ -2128,6 +2350,52 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
 <script src="https://gist.github.com/sasha240100/186976e65a13e62ec333.js"></script>
 
 <p><img src="images/shapes/torusknot.png"></p>
+
+          <h2 class="ws" id="tube">Tube [Class]</h2>
+
+<p><code class="prettyprint">WHS.Tube</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<p><code class="prettyprint">WHS.Tube</code> class makes a tube that extrudes along a 3d curve.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>path</strong></td>
+<td>customSinCurve()</td>
+<td><code class="prettyprint">Object</code></td>
+<td>Tube curve object.</td>
+</tr>
+<tr>
+<td><strong>segments</strong></td>
+<td>20</td>
+<td><code class="prettyprint">Number</code></td>
+<td>Number of segments.</td>
+</tr>
+<tr>
+<td><strong>radius</strong></td>
+<td>2</td>
+<td><code class="prettyprint">Number</code></td>
+<td>Radius.</td>
+</tr>
+<tr>
+<td><strong>radiusSegments</strong></td>
+<td>8</td>
+<td><code class="prettyprint">Number</code></td>
+<td>Radius segments number.</td>
+</tr>
+<tr>
+<td><strong>closed</strong></td>
+<td>false</td>
+<td><code class="prettyprint">Boolean</code></td>
+<td>TODO</td>
+</tr>
+</tbody></table>
 
           <h1 id="lights">Lights</h1>
 
@@ -2477,7 +2745,43 @@ We use them in <code class="prettyprint">THREE.Vector3</code> like <code class="
 
 <aside class="notice"><code>WHS.SpotLight</code> affects meshes with <code>lambert</code> and <code>phong</code> material.</aside>
 
-          <h1 id="controls">Controls.</h1>
+          <h1 id="events">Events</h1>
+
+<p><code class="prettyprint">WHS.Shape</code> and <code class="prettyprint">WHS.Light</code> are returning <code class="prettyprint">Events</code> object extended by themselfes.
+It means that you can listen for events with <code class="prettyprint">.addEventListener()</code> method right on shape or light returned by those classes.</p>
+
+<h3 id="events-list">Events list:</h3>
+
+<table><thead>
+<tr>
+<th>Event</th>
+<th>Arguments returned</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>collide</strong></td>
+<td>[event Object]</td>
+<td>Object collide event.</td>
+</tr>
+<tr>
+<td><strong>ready</strong></td>
+<td>-</td>
+<td>Emits when object is built.</td>
+</tr>
+<tr>
+<td><strong>remove</strong></td>
+<td>-</td>
+<td>Emits when shape is removed.</td>
+</tr>
+<tr>
+<td><strong>retrieve</strong></td>
+<td>-</td>
+<td>Emits when shape is retrieved.</td>
+</tr>
+</tbody></table>
+
+<h1 id="controls">Controls</h1>
 
 <h2 id="first-person-controls">First-person controls.</h2>
 
@@ -2540,7 +2844,128 @@ Many different genres have made use of first-person perspectives, ranging from a
 
 <p>Use <code class="prettyprint">OrbitControls</code> if you want to look for your shape from different angles.</p>
 
-          <h1 id="plugins-amp-components">Plugins &amp; Components</h1>
+          <h1 id="components">Components</h1>
+
+<h2 id="fog-class">Fog [Class]</h2>
+
+<blockquote>
+<p>Example of using fog:</p>
+</blockquote>
+<pre class="highlight javascript"><code>
+<span class="kd">var</span> <span class="nx">fog</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Fog</span><span class="p">({</span>
+    <span class="na">hex</span><span class="p">:</span> <span class="mh">0x000000</span><span class="p">,</span>
+    <span class="na">near</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">far</span><span class="p">:</span> <span class="mi">1000</span>
+<span class="p">});</span>
+
+</code></pre>
+
+<p><code class="prettyprint">WHS.Fog</code> is a component for defining linear fog, i.e., that grows linearly denser with the distance.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>hex</strong></td>
+<td>0x000000</td>
+<td><code class="prettyprint">Color</code></td>
+<td>Fog color.</td>
+</tr>
+<tr>
+<td><strong>near</strong></td>
+<td>1</td>
+<td><code class="prettyprint">Number</code></td>
+<td>The minimum distance to start fog.</td>
+</tr>
+<tr>
+<td><strong>far</strong></td>
+<td>1000</td>
+<td><code class="prettyprint">Number</code></td>
+<td>The maximum distance to start fog.</td>
+</tr>
+</tbody></table>
+
+<h2 id="fogexp2-class">FogExp2 [Class]</h2>
+
+<blockquote>
+<p>Example of using fogexp2:</p>
+</blockquote>
+<pre class="highlight javascript"><code>
+<span class="kd">var</span> <span class="nx">fog</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">FogExp2</span><span class="p">({</span>
+    <span class="na">hex</span><span class="p">:</span> <span class="mh">0x000000</span><span class="p">,</span>
+    <span class="na">density</span><span class="p">:</span> <span class="mf">0.00025</span>
+<span class="p">});</span>
+
+</code></pre>
+
+<p><code class="prettyprint">WHS.FogExp2</code> is like a <code class="prettyprint">WHS.Fog</code> class, but that define exponential fog, i.e., that grows exponentially denser with the distance.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>hex</strong></td>
+<td>0x000000</td>
+<td><code class="prettyprint">Color</code></td>
+<td>Fog color.</td>
+</tr>
+<tr>
+<td><strong>density</strong></td>
+<td>0.00025</td>
+<td><code class="prettyprint">Number</code></td>
+<td>Defines how fast the fog will grow dense.</td>
+</tr>
+</tbody></table>
+
+<h2 class="ws" id="skybox">Skybox [Class]</h2>
+
+<blockquote>
+<p>Example of using skybox:</p>
+</blockquote>
+<pre class="highlight javascript"><code>
+<span class="kd">var</span> <span class="nx">fog</span> <span class="o">=</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">Skybox</span><span class="p">({</span>
+    <span class="na">path</span><span class="p">:</span> <span class="s2">"assets/textures/skybox/skymap"</span><span class="p">,</span>
+    <span class="na">imgSuffix</span><span class="p">:</span> <span class="s2">".png"</span><span class="p">,</span>
+    <span class="na">skyType</span><span class="p">:</span> <span class="s2">"sphere"</span><span class="p">,</span>
+    <span class="na">radius</span><span class="p">:</span> <span class="nx">GAME</span><span class="p">.</span><span class="nx">_camera</span><span class="p">.</span><span class="nx">far</span><span class="p">,</span>
+
+    <span class="na">rot</span><span class="p">:</span> <span class="p">{</span> <span class="na">y</span><span class="p">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">180</span> <span class="o">*</span> <span class="o">-</span> <span class="mi">90</span> <span class="p">},</span>
+    <span class="na">pos</span><span class="p">:</span> <span class="p">{</span> <span class="na">y</span><span class="p">:</span> <span class="o">-</span> <span class="mi">200</span> <span class="p">}</span>
+<span class="p">});</span>
+
+</code></pre>
+
+<p><code class="prettyprint">WHS.Skybox</code> is a simple class, it extends <code class="prettyprint">WHS.Shape</code> and inherits all it&rsquo;s methods.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>todo</strong></td>
+<td>0x000000</td>
+<td><code class="prettyprint">Color</code></td>
+<td>TODO</td>
+</tr>
+</tbody></table>
+
+<p><img src="images/skybox.png"></p>
+
+          <h1 id="adding-plugins-amp-components">Adding Plugins &amp; Components</h1>
 
 <h2 id="making-your-own-component">Making your own component</h2>
 <pre class="highlight javascript"><code>
@@ -2592,11 +3017,1067 @@ As you know, <code class="prettyprint">whitestorm.js</code> uses <code class="pr
 
 <aside class="notice">You also can specify your <code>tags</code> when you are going to build your shape. If you need to load a file, it is better to put a <code>wait</code> tag. So your build method will look like <code>super.build("wait")</code>. And don&rsquo;t forget about <code>this._loading</code> promise, or your obect will throw errors.</aside>
 
+<aside class="warning yellow">It is adviced to compile them with <a href="https://babeljs.io/">Babel</a>.</aside>
+
+          <script src="jslibs/whitestorm.min.js"></script>
+
+<script>
+
+$('.splash').on('click', function() {
+    $(this).hide();
+    $(this).parent().find('.actions').show();
+});
+
+$('.actions .fa-pause').on('click', function() {
+    $(this).parent().parent().find('.splash').show();
+    $(this).parent().hide();
+});
+
+function reset_mesh( whsobject ) {
+    whsobject.mesh.__dirtyPosition = true;
+    whsobject.mesh.__dirtyRotation = true;
+
+    whsobject.setRotation(0, 0, 0);
+
+    whsobject.mesh.setLinearVelocity(new THREE.Vector3(0, 0, 0));
+    whsobject.mesh.setAngularVelocity(new THREE.Vector3(0, 0, 0));
+}
+
+// NOTE: Basic scene with sphere and ground.
+
+var defaultParams = {
+    stats: false, // fps, ms, mb
+    autoresize: false,
+
+    gravity: {
+        x: 0,
+        y: -100,
+        z: 0
+    },
+
+    camera: {
+        far: 1000,
+        near: 10,
+        y: 10,
+        z: 80
+    },
+
+    path_worker: 'jslibs/physijs_worker.js',
+    path_ammo: 'ammo.js'
+};
+
+var groundParams = {
+    geometry: {
+        width: 250,
+        height: 250
+    },
+
+    material: {
+        color: 0xff0000,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 0,
+        z: 0
+    },
+
+    rot: {
+        x: -Math.PI/2
+    }
+};
+
+// SPHERE EXAMPLE.
+
+defaultParams.container = document.getElementById("sphere_ex");
+
+var Sphere_example = new WHS.World( defaultParams );
+
+var sphere = Sphere_example.Sphere(
+{
+    geometry: {
+        radius:15
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var sphere2 = Sphere_example.Sphere(
+{
+    geometry: {
+        radius:15.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+(new WHS.loop(function() {
+    sphere2.position = sphere.position;
+    sphere2.rotation = sphere.rotation;
+})).start();
+
+Sphere_example.Plane(groundParams);
+
+Sphere_example.OrbitControls();
+
+//Sphere_example.start();
+
+// Box EXAMPLE.
+
+defaultParams.container = document.getElementById("box_ex");
+
+var Box_example = new WHS.World( defaultParams );
+
+var box = Box_example.Box(
+{
+    geometry: {
+        width:20,
+        height:20,
+        depth:20
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var box2 = Box_example.Box(
+{
+    geometry: {
+        width:20.1,
+        height:20.1,
+        depth:20.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+(new WHS.loop(function() {
+    box2.position = box.position;
+    box2.rotation = box.rotation;
+})).start();
+
+Box_example.Plane(groundParams);
+
+Box_example.OrbitControls();
+
+//Box_example.start();
+
+// CYLINDER EXAMPLE.
+
+defaultParams.container = document.getElementById("cylinder_ex");
+
+var Cylinder_example = new WHS.World( defaultParams );
+
+var cylinder = Cylinder_example.Cylinder(
+{
+    geometry: {
+        radiusTop: 20,
+        radiusBottom: 40,
+        height: 50
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var cylinder2 = Cylinder_example.Cylinder(
+{
+    geometry: {
+        radiusTop: 20.1,
+        radiusBottom: 40.1,
+        height: 50.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+(new WHS.loop(function() {
+    cylinder2.position = cylinder.position;
+    cylinder2.rotation = cylinder.rotation;
+})).start();
+
+Cylinder_example.Plane(groundParams);
+
+Cylinder_example.OrbitControls();
+
+//Cylinder_example.start();
+
+// CYLINDER EXAMPLE.
+
+defaultParams.container = document.getElementById("dodecahedron_ex");
+
+var Dodecahedron_example = new WHS.World( defaultParams );
+
+var dodecahedron = Dodecahedron_example.Dodecahedron(
+{
+    geometry: {
+        radius: 20
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var dodecahedron2 = Dodecahedron_example.Dodecahedron(
+{
+    geometry: {
+        radius: 20.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+(new WHS.loop(function() {
+    dodecahedron2.position = dodecahedron.position;
+    dodecahedron2.rotation = dodecahedron.rotation;
+})).start();
+
+Dodecahedron_example.Plane(groundParams);
+
+Dodecahedron_example.OrbitControls();
+
+//Dodecahedron_example.start();
+
+// POLYHEDRON EXAMPLE.
+
+defaultParams.container = document.getElementById("polyhedron_ex");
+
+var Polyhedron_example = new WHS.World( defaultParams );
+
+var polyhedron = Polyhedron_example.Polyhedron(
+{
+    geometry: {
+        radius: 20
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var polyhedron2 = Polyhedron_example.Polyhedron(
+{
+    geometry: {
+        radius: 20.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+(new WHS.loop(function() {
+    polyhedron2.position = polyhedron.position;
+    polyhedron2.rotation = polyhedron.rotation;
+})).start();
+
+Polyhedron_example.Plane(groundParams);
+
+Polyhedron_example.OrbitControls();
+
+//Polyhedron_example.start();
+
+// ICOSAHEDRON EXAMPLE.
+
+defaultParams.container = document.getElementById("icosahedron_ex");
+
+var Icosahedron_example = new WHS.World( defaultParams );
+
+var icosahedron = Icosahedron_example.Icosahedron(
+{
+    geometry: {
+        radius: 20
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var icosahedron2 = Icosahedron_example.Icosahedron(
+{
+    geometry: {
+        radius: 20.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+(new WHS.loop(function() {
+    icosahedron2.position = icosahedron.position;
+    icosahedron2.rotation = icosahedron.rotation;
+})).start();
+
+Icosahedron_example.Plane(groundParams);
+
+Icosahedron_example.OrbitControls();
+
+//Icosahedron_example.start();
+
+// OCTAHEDRON EXAMPLE.
+
+defaultParams.container = document.getElementById("octahedron_ex");
+
+var Octahedron_example = new WHS.World( defaultParams );
+
+var octahedron = Octahedron_example.Octahedron(
+{
+    geometry: {
+        radius: 20
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+var octahedron2 = Octahedron_example.Octahedron(
+{
+    geometry: {
+        radius: 20.1
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+(new WHS.loop(function() {
+    octahedron2.position = octahedron.position;
+    octahedron2.rotation = octahedron.rotation;
+})).start();
+
+Octahedron_example.Plane(groundParams);
+
+Octahedron_example.OrbitControls();
+
+//Octahedron_example.start();
+
+// TETRAHEDRON EXAMPLE.
+
+defaultParams.container = document.getElementById("tetrahedron_ex");
+
+var Tetrahedron_example = new WHS.World( defaultParams );
+
+var tetrahedron = Tetrahedron_example.Tetrahedron(
+{
+    geometry: {
+        radius: 20
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "depth"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    },
+
+    rot: {
+        x: 10
+    }
+});
+
+var tetrahedron2 = Tetrahedron_example.Tetrahedron(
+{
+    geometry: {
+        radius: 20
+    },
+
+    mass: 0,
+    physics: false,
+
+    material: {
+        color: 0x000000,
+        wireframe: true,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    },
+
+    rot: {
+        x: 10
+    }
+});
+
+(new WHS.loop(function() {
+    tetrahedron2.position = tetrahedron.position;
+    tetrahedron2.rotation = tetrahedron.rotation;
+})).start();
+
+Tetrahedron_example.Plane(groundParams);
+
+Tetrahedron_example.OrbitControls();
+
+//Tetrahedron_example.start();
+
+// SPOTLIGHT CONFIGURE.
+
+// EXTRUDE EXAMPLE.
+
+defaultParams.container = document.getElementById("extrude_ex");
+
+var Extrude_example = new WHS.World( defaultParams );
+
+var shape = new THREE.Shape([
+    new THREE.Vector2( -40,-40 ),
+    new THREE.Vector2( -20,0  ),
+    new THREE.Vector2( -40,40  ),
+    new THREE.Vector2(  0,20  ),
+    new THREE.Vector2(  40,40  ),
+    new THREE.Vector2(  20,0  ),
+    new THREE.Vector2(  40,-40 ),
+    new THREE.Vector2(  0,-20 ),
+]);
+
+var extrude = Extrude_example.Extrude(
+{
+    geometry: {
+        shapes: shape,
+        options: {
+            bevelEnabled: false,
+            bevelSize: 0,
+            amount: 20
+        } 
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "lambert"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+Extrude_example.Plane(groundParams);
+
+Extrude_example.OrbitControls();
+
+// LATHE EXAMPLE.
+
+defaultParams.container = document.getElementById("lathe_ex");
+
+var Lathe_example = new WHS.World( defaultParams );
+
+var points = [];
+for ( var i = 0; i < 10; i ++ ) {
+    points.push( 
+        new THREE.Vector2( 
+            (Math.sin( i * 0.7 ) * 15 + 50)/10, 
+            ( i - 5 ) * 0.2 
+        ) 
+    );
+
+}
+
+var lathe = Lathe_example.Lathe(
+{
+    geometry: {
+        points: points
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "lambert",
+        side: THREE.DoubleSide
+    },
+
+    pos: {
+        x: 0,
+        y: 50,
+        z: 10
+    }
+});
+
+Lathe_example.Plane(groundParams);
+
+Lathe_example.OrbitControls();
+
+//Lathe_example.start();
+
+// MODEL EXAMPLE.
+
+defaultParams.container = document.getElementById("model_ex");
+
+var Model_example = new WHS.World( defaultParams );
+
+var model = Model_example.Model(
+{
+    geometry: {
+        path: "assets/models/utah-teapot-large.json",
+        physics: "assets/models/utah-teapot-light.json"
+    },
+
+    mass: 10,
+
+    material: {
+        vertexColors: THREE.VertexColors,
+        shading: THREE.PlaneShading,
+        map: WHS.API.texture('assets/textures/teapot.jpg', {repeat:{x: 1, y:1}}),
+        kind: "phong",
+        side: THREE.DoubleSide,
+        useCustomMaterial: true,
+        rest: 0,
+        fri: 1
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    },
+
+    scale: {
+        x: 1.5,
+        y: 1.5, 
+        z: 1.5
+    }
+});
+
+Model_example.Box({    
+    geometry:{
+        width: 250,
+        height: 1,
+        depth: 250
+    },
+
+    mass: 0,
+    
+    material: {
+        color: 0xff0000,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
+Model_example.OrbitControls();
+
+//Model_example.start();
+
+// MORPH EXAMPLE.
+
+defaultParams.container = document.getElementById("morph_ex");
+
+var Morph_example = new WHS.World( defaultParams );
+
+var morph = Morph_example.Morph(
+{
+    geometry: {
+        path: "assets/models/morph/parrot.js"
+    },
+
+    material: {
+        useVertexColors: true,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 0,
+        z: 0
+    },
+
+    morph: {
+        duration: 0.5,
+        speed: 250
+    }
+});
+
+Morph_example.OrbitControls();
+
+//Morph_example.start();
+
+// PARAMETRIC EXAMPLE.
+
+defaultParams.container = document.getElementById("parametric_ex");
+
+var Parametric_example = new WHS.World( defaultParams );
+
+function createParametric( u, v ) {
+    return new THREE.Vector3( u * 60, Math.random() * 10, v * 60);
+}
+
+var parametric = Parametric_example.Parametric(
+{
+    geometry: {
+        func: createParametric
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "lambert",
+        side: THREE.DoubleSide
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: -10
+    }
+});
+
+Parametric_example.OrbitControls();
+
+Parametric_example.Box({    
+    geometry:{
+        width: 250,
+        height: 1,
+        depth: 250
+    },
+
+    mass: 0,
+    
+    material: {
+        color: 0xff0000,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
+//Parametric_example.start();
+
+// RING EXAMPLE.
+
+/*defaultParams.container = document.getElementById("ring_ex");
+
+var Ring_example = new WHS.World( defaultParams );
+
+var ring = Ring_example.Ring(
+{
+    geometry: {
+        innerRadius: 5,
+        outerRadius: 2
+    },
+
+    mass: 0,
+
+    material: {
+        color: 0xffffff,
+        kind: "basic",
+        side: THREE.DoubleSide
+    },
+
+    pos: {
+        x: 0,
+        y: 8,
+        z: 0
+    },
+
+    rot: {
+        x: Math.PI/4
+    }
+});
+
+Ring_example.OrbitControls();
+
+Ring_example.Plane(groundParams);
+
+spotlight.addTo( Ring_example );*/
+
+//Ring_example.start();
+
+// TEXT EXAMPLE.
+
+defaultParams.container = document.getElementById("text_ex");
+
+var Text_example = new WHS.World( defaultParams );
+
+var text = Text_example.Text(
+{
+    geometry: {
+        text: "hello world",
+        parameters: {
+            font: "assets/fonts/gentilis_bold.typeface.js",
+            size: 20,
+            height: 5,
+            curveSegments: 6
+        }
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0x00ff00,
+        kind: "lambert"
+    },
+
+    pos: {
+        x: 0,
+        y: 20,
+        z: -20
+    }
+});
+
+Text_example.OrbitControls();
+
+Text_example.Box({    
+    geometry:{
+        width: 250,
+        height: 1,
+        depth: 250
+    },
+
+    mass: 0,
+    
+    material: {
+        color: 0xff0000,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
+//Text_example.start();
+
+// TORUS EXAMPLE.
+
+defaultParams.container = document.getElementById("torus_ex");
+
+var Torus_example = new WHS.World( defaultParams );
+
+var torus = Torus_example.Torus(
+{
+    geometry: {
+        radius: 20,
+        tube: 8
+    },
+
+    mass: 10,
+
+    material: {
+        color: 0xffffff,
+        kind: "lambert",
+        side: THREE.DoubleSide
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    },
+
+    rot: {
+        x: Math.PI/4
+    }
+});
+
+Torus_example.OrbitControls();
+
+Torus_example.Box({    
+    geometry:{
+        width: 250,
+        height: 1,
+        depth: 250
+    },
+
+    mass: 0,
+    
+    material: {
+        color: 0xff0000,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
+//Torus_example.start();
+
+// TORUSKNOT EXAMPLE.
+
+defaultParams.container = document.getElementById("torusknot_ex");
+
+var Torusknot_example = new WHS.World( defaultParams );
+
+var torusknot = Torusknot_example.Torusknot(
+{
+    geometry: {
+        radius:20,
+        tube: 8
+    },
+
+    mass: 10,
+
+    material: {
+        vertexColors: THREE.VertexColors,
+        shading: THREE.PlaneShading,
+        map: WHS.API.texture('assets/textures/bricks.jpg'),
+        kind: "phong"
+    },
+
+    pos: {
+        x: 0,
+        y: 100,
+        z: 0
+    }
+});
+
+Torusknot_example.OrbitControls();
+
+Torusknot_example.Box({    
+    geometry:{
+        width: 250,
+        height: 1,
+        depth: 250
+    },
+
+    mass: 0,
+    
+    material: {
+        color: 0xff0000,
+        kind: "basic"
+    },
+
+    pos: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
+//Torusknot_example.start();
+
+var spotlight = new WHS.SpotLight( 
+{
+    light: {
+        color: 0xffffff, //0x00ff00,
+        intensity: 2,
+        distance: 1000,
+    },
+
+    shadowmap: {
+        top: 0,
+        fov: 90
+    },
+
+    pos: {
+        x: 0,
+        y: 200,
+        z: 300
+    },
+
+    target: {
+        x: 0,
+        y: 0,
+        z: 0
+    }
+});
+
+spotlight.addTo( Extrude_example );
+
+spotlight.clone().addTo( Lathe_example );
+
+spotlight.clone().addTo( Model_example );
+
+spotlight.clone().addTo( Morph_example );
+
+spotlight.clone().addTo( Parametric_example );
+
+spotlight.clone().addTo( Text_example );
+
+spotlight.clone().addTo( Torus_example );
+
+spotlight.clone().addTo( Torusknot_example );
+</script>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="javascript">javascript</a>
                 <a href="#" data-language-name="html">html</a>
+                <a href="#" data-language-name="output">output</a>
           </div>
       </div>
     </div>
